@@ -1,0 +1,31 @@
+{
+  "name": "@deskproapps/app-mailchimp",
+  "version": "0.1.0",
+  "description": "A foundation to get you started developing React DeskPro Apps with the best developer experience ",
+  "main": "lib/main/javascript/index.js",
+  "scripts": {
+    "dev": "dpat server .",
+    "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeskproApps/app-mailchimp.git"
+  },
+  "keywords": [
+    "deskpro",
+    "react-boilerplate"
+  ],
+  "author": "Deskpro",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/DeskproApps/app-mailchimp/issues"
+  },
+  "homepage": "https://github.com/DeskproApps/app-mailchimp#readme",
+  "dependencies": {
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.6"
+  },
+  "devDependencies": {
+    "@deskproapps/dpat": "0.3.4"
+  }
+}
