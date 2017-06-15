@@ -4,7 +4,7 @@ import App from './App';
 
 export function runApp(app) {
   ReactDOM.render(
-    <DeskproAppContainer app={app} name={'Your app name'} mainComponent={App} />,
+    <DeskproAppContainer app={app} name={'MAILCHIMP'} mainComponent={App} />,
     document.getElementById('deskpro-app')
   );
 }

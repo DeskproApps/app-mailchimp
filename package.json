@@ -26,6 +26,7 @@
     "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.6"
   },
   "devDependencies": {
-    "@deskproapps/dpat": "0.3.4"
+    "@deskproapps/dpat": "0.3.4",
+    "react-custom-scrollbars": "^4.1.1"
   }
 }
