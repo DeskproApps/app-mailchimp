@@ -87,37 +87,7 @@ export class CampaignActivityList extends React.Component
     if (uiState === 'empty') { return this.renderEmptyState(); }
     if (uiState === 'normal') { return this.renderNormalState(); }
 
-    return null;
+    return (<noscript/>);
   }
 
 }
-
-/**
- * @param {Array<CampaignActivity>} activityList
- * @constructor
- */
-export const CampaignActivityLists = ({ activityList }) => {
-
-  if (activityList.length === 0) {
-    return (
-      <Layout.Section title="CAMPAIGNS">
-        <Layout.Block>
-          You have no campaigns
-        </Layout.Block>
-      </Layout.Section>
-    );
-  }
-
-   return (
-     <Layout.Section title="CAMPAIGNS">
-       <Layout.Block>
-         Here be dragons
-       </Layout.Block>
-     </Layout.Section>
-   );
-
-};
-
-CampaignActivityList.propTypes = {
-  activityList: React.PropTypes.array.isRequired,
-};

@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { CampaignActivityList, UserCard, SubscriptionsList } from './Components'
-import { CampaignActivity, MemberInfo, SubscriptionStatus } from './Domain'
+import { HomeView, AuthenticationView } from './Components'
+import { CampaignActivity, MemberInfo, SubscriptionStatus, MailchimpAuthcInfo } from './Domain'
+import MailchimpClient  from 'mailchimp-v3-api';
 
 export default class App extends React.Component
 {
@@ -18,7 +19,9 @@ export default class App extends React.Component
 
   initState = () => {
     this.state = {
-      memberInfo: new MemberInfo({ email: 'zack.prudent@techcompany.com', fullName: 'Zack Prudent', rating: 3 }),
+      activeView: '',
+      mailchimpAuth: new MailchimpAuthcInfo({}).toJS(),
+      memberInfo: new MemberInfo({ email: 'zack.prudent@techcompany.com', fullName: 'Zack Prudent', rating: 4 }),
       subscriptionStatusList: [
         new SubscriptionStatus({ id: 1, name : 'iPhone 6s & Plus SDK Issue', isSubscribed: false })
         , new SubscriptionStatus({ id: 2, name : 'All Hercules Developers', isSubscribed: true })
@@ -46,19 +49,92 @@ export default class App extends React.Component
     }
   };
 
+  componentDidMount() {
 
-  shouldComponentUpdate() { return false; }
+    this.getMailchimpAuth()
+      .then(mailchimpAuth => {
+        const stateUpdate = mailchimpAuth ? { activeView: 'home', mailchimpAuth: mailchimpAuth.toJS() } : { activeView: 'authenticate' };
+        this.setState(stateUpdate);
+
+        return mailchimpAuth;
+      })
+    ;
+
+  // .then(mailchimpAuth => {
+  //
+  //     const client = new MailchimpClient({ key: mailchimpAuth.apiKey });
+  //
+  //     return client.get('/lists')
+  //       .then(function(response){
+  //         console.log('got response from mailchimp');
+  //         console.log(response);
+  //       })
+  //   })
+
+  }
+
+  getMailchimpAuth = () => {
+    const { appState } = this.props.dpapp;
+
+    return appState.asyncGetPrivate('settings')
+      .then(state => {
+        return !state ? null : state;
+      })
+      .catch(err => {
+        console.log('got error', err);
+        return err;
+      })
+      .then(result => {
+        if (result instanceof Error || result === null) { return null; }
+
+        const authc = new MailchimpAuthcInfo(result);
+        if (authc.oauth2Token || authc.apiKey) { return authc; }
+
+        return null;
+      });
+  };
+
+  /**
+   * @param {MailchimpAuthcInfo} mailchimpAuthc
+   * @return {Promise.<T>}
+   */
+  updateMailchimpAuth = (mailchimpAuthc) => {
+    const { appState } = this.props.dpapp;
+
+    return appState
+      .asyncSetPrivate('settings', mailchimpAuthc.toJS())
+      .then(state => this.setState({ activeView: 'home', mailchimpAuth: mailchimpAuthc.toJS() }))
+      .catch(err => {
+        console.log('got error', err);
+        return err;
+      });
+
+  };
+
+  onNewMailchimpAPIKey = apiKey => {
+    // TODO try first the key
+    const authc = new MailchimpAuthcInfo({apiKey: apiKey});
+    this.updateMailchimpAuth(authc);
+  };
+
+  renderAuthenticationView = () => {
+    return (<AuthenticationView onAuthenticate={this.onNewMailchimpAPIKey} />)
+  };
+
+  renderHomeView = () => {
+    const { memberInfo, subscriptionStatusList, campaignActivityList } = this.state;
+    return (<HomeView  memberInfo={memberInfo} subscriptionStatusList={subscriptionStatusList} campaignActivityList={campaignActivityList} />)
+  };
 
   render() {
 
-    const { memberInfo, subscriptionStatusList, campaignActivityList } = this.state;
-    return (
-      <div>
-        <UserCard memberInfo={memberInfo} />
-        <SubscriptionsList statusList={subscriptionStatusList} />
-        <CampaignActivityList activityList={campaignActivityList} />
-      </div>
-    );
+    const { activeView } = this.state;
+
+    if (activeView === 'home') { return this.renderHomeView(); }
+
+    if (activeView === 'authenticate') { return this.renderAuthenticationView(); }
+
+    return (<noscript/>);
 
   }
 }

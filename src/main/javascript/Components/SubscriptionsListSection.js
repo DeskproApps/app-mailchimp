@@ -164,7 +164,7 @@ export class SubscriptionsList extends React.Component {
     if (uiState === 'empty') { return this.renderEmptyState(); }
     if (uiState === 'normal') { return this.renderNormalState(); }
 
-    return null;
+    return (<noscript/>);
   }
 
 }

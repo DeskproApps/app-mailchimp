@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@deskproapps/dpat": "0.3.4",
+    "mailchimp-v3-api": "1.0.0",
     "react-custom-scrollbars": "^4.1.1"
   }
 }
