@@ -1,0 +1,1 @@
+export {parseMemberInfo} from './Parsers';
