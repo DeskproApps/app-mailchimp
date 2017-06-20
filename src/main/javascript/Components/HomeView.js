@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { CampaignActivityList } from './CampaignActivityListSection'
-import { SubscriptionsList } from './SubscriptionsListSection'
+import { MemberActivityList } from './CampaignsSection'
+import { SubscriptionsList } from './SubscriptionsSection'
 import { UserCard } from './UserCardSection'
 
 /**
  * @param {MemberInfo} memberInfo
  * @param {Array<SubscriptionStatus>} subscriptionStatusList
- * @param {Array<CampaignActivity>} campaignActivityList
+ * @param {Array<MemberActivity>} memberActivityList
  * @constructor
  */
-export const HomeView = ({ memberInfo, subscriptionStatusList, campaignActivityList }) => {
+export const HomeView = ({ memberInfo, subscriptionStatusList, memberActivityList }) => {
   return (
     <div>
       <UserCard memberInfo={memberInfo} />
       <SubscriptionsList statusList={subscriptionStatusList} />
-      <CampaignActivityList activityList={campaignActivityList} />
+      <MemberActivityList activityList={memberActivityList} />
     </div>
   );
 };

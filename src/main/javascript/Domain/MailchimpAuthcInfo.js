@@ -1,6 +1,10 @@
 
 export class MailchimpAuthcInfo
 {
+  /**
+   * @param {String} oauth2Token
+   * @param {String} apiKey
+   */
   constructor({ oauth2Token, apiKey })
   {
     this.props = { oauth2Token, apiKey };

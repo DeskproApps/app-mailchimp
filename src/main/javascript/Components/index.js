@@ -1,6 +1,6 @@
 
-export { CampaignActivityList } from './CampaignActivityListSection'
-export { SubscriptionsList } from './SubscriptionsListSection'
+export { MemberActivityList } from './CampaignsSection'
+export { SubscriptionsList } from './SubscriptionsSection'
 export { UserCard } from './UserCardSection'
 export { HomeView } from './HomeView'
 export { AuthenticationView } from './AuthenticationView'

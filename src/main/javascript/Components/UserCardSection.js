@@ -1,13 +1,24 @@
 import React from 'react';
 import { Layout } from '@deskproapps/deskproapps-sdk-react';
 
+
+const renderEmpty = () =>
+{
+  return (
+    <Layout.Section title="USER & RATING">
+      <Layout.Block>
+        <div>No member information available yet</div>
+      </Layout.Block>
+    </Layout.Section>
+  );
+};
+
 /**
  * @param {MemberInfo} memberInfo
  * @return {XML}
- * @constructor
  */
-export const UserCard = ({ memberInfo }) => {
-
+const renderNormal = ({ memberInfo }) =>
+{
   return (
     <Layout.Section title="USER & RATING">
       <Layout.Block>
@@ -27,8 +38,22 @@ export const UserCard = ({ memberInfo }) => {
   );
 };
 
+/**
+ * @param {MemberInfo} memberInfo
+ * @return {XML}
+ * @constructor
+ */
+export const UserCard = ({ memberInfo }) => {
+
+  if (!memberInfo) {
+    return renderEmpty();
+  }
+
+  return renderNormal({ memberInfo });
+};
+
 UserCard.propTypes = {
-  memberInfo: React.PropTypes.object.isRequired,
+  memberInfo: React.PropTypes.object,
 };
 
 

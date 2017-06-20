@@ -16,12 +16,14 @@ export class SubscriptionsList extends React.Component {
     size: 3
   };
 
-  constructor(props) {
+  constructor(props)
+  {
     super(props);
     this.initState();
   }
 
-  initState = () => {
+  initState = () =>
+  {
     const { statusList, size } = this.props;
     const listTailSize = statusList.length - size;
 
@@ -33,11 +35,21 @@ export class SubscriptionsList extends React.Component {
     }
   };
 
+  componentWillReceiveProps(nextProps)
+  {
+    const uiState = nextProps.statusList.length === 0 ? 'empty' : 'normal';
+
+    if (uiState !== this.state.uiState) {
+      this.setState({ uiState });
+    }
+  }
+
   onUnsubcribeAll = () => {
 
   };
 
-  toggleSubscription = () => {
+  toggleSubscription = () =>
+  {
 
   };
 
@@ -72,7 +84,8 @@ export class SubscriptionsList extends React.Component {
   /**
    * @param {SubscriptionStatus} status
    */
-  mapStatusToListItemMarkup = status => {
+  mapStatusToListItemMarkup = status =>
+  {
     return (
       <div>
         <label>
@@ -83,7 +96,8 @@ export class SubscriptionsList extends React.Component {
     );
   };
 
-  renderEmptyState = () => {
+  renderEmptyState = () =>
+  {
     return (
       <Layout.Section title="SUBSCRIPTIONS">
         You have no lists
@@ -91,7 +105,8 @@ export class SubscriptionsList extends React.Component {
     );
   };
 
-  renderNormalState = () => {
+  renderNormalState = () =>
+  {
     const { statusList, size } = this.props;
     const {showMoreSectionEnabled, showMoreText} = this.state;
 

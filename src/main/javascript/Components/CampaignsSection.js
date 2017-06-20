@@ -14,33 +14,44 @@ const renderScrollbarThumb = ({ style, ...props }) => {
   );
 };
 
-export class CampaignActivityList extends React.Component
+export class MemberActivityList extends React.Component
 {
   static propTypes = {
     activityList: React.PropTypes.array.isRequired
   };
 
-  static defaultProps = {
+  static defaultProps = {};
 
-  };
-
-  constructor(props) {
+  constructor(props)
+  {
     super(props);
     this.initState();
   }
 
-  initState = () => {
+  initState = () =>
+  {
     const { activityList } = this.props;
 
     this.state = {
       uiState: activityList.length === 0 ? 'empty' : 'normal'
-    }
+    };
+
   };
 
+  componentWillReceiveProps(nextProps)
+  {
+    const uiState = nextProps.activityList.length === 0 ? 'empty' : 'normal';
+
+    if (uiState !== this.state.uiState) {
+      this.setState({ uiState });
+    }
+  }
+
   /**
-   * @param {CampaignActivity} status
+   * @param {MemberActivity} status
    */
-  mapStatusToMarkup = status => {
+  mapStatusToMarkup = status =>
+  {
     return (
 
       <div className="item">
@@ -54,7 +65,7 @@ export class CampaignActivityList extends React.Component
     return (
       <Layout.Section title="CAMPAIGNS">
         <Layout.Block>
-          You have no campaigns
+          No recorded campaign activity yet
         </Layout.Block>
       </Layout.Section>
     );
