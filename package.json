@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/DeskproApps/app-mailchimp#readme",
   "dependencies": {
-    "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.6"
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.7"
   },
   "devDependencies": {
     "@deskproapps/dpat": "0.3.4",
