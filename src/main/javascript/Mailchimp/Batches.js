@@ -107,7 +107,7 @@ export class Client
   fetch (endpoint, init) {
 
     const { fetchClient } = this.props;
-    const { method, wait } = init
+    const { method, wait } = init;
 
     if (method.toString().toLowerCase() === 'post' && wait) {
       return fetchClient.fetch(endpoint, init)
@@ -116,7 +116,6 @@ export class Client
           return waitForBatchstatus({ fetchClient, batchId, interval: 500 });
         })
         .then(response => {
-          console.log('got body url', response.body.response_body_url, response);
           return response;
         })
         .catch(e => {console.log(e)})

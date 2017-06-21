@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { HomeView, AuthenticationView } from './Components'
-import { MemberActivity, MemberInfo, SubscriptionStatus, MailchimpAuthcInfo } from './Domain'
+import { MemberActivity, SubscriberDetails, MailchimpAuthcInfo } from './Domain'
 
-import { MailchimpFetchClient, fetchLists, fetchMemberInfo, determineAverageRating, determineSubscriptions } from './Mailchimp';
-import { parseMemberInfo } from './Deskpro';
+import { MailchimpFetchClient, fetchLists, fetchSubscriberInfo, updateListSubscriptions, determineMembershipDetails } from './Mailchimp';
+import { parseSubscriberDetails } from './Deskpro';
 
 export default class App extends React.Component
 {
@@ -20,13 +20,13 @@ export default class App extends React.Component
     this.state = {
       activeView: '',
       mailchimpAuth: new MailchimpAuthcInfo({}).toJS(),
-      memberInfo: null,
+      subscriberDetails: null,
       subscriptionStatusList: [],
       memberActivityList: [],
     };
 
     // const dummyDataState = {
-    //   memberInfo: new MemberInfo({ email: 'zack.prudent@techcompany.com', fullName: 'Zack Prudent', rating: 4 }),
+    //   subscriberDetails: new MemberInfo({ email: 'zack.prudent@techcompany.com', fullName: 'Zack Prudent', rating: 4 }),
     //   subscriptionStatusList: [
     //     new SubscriptionStatus({ id: 1, name : 'iPhone 6s & Plus SDK Issue', isSubscribed: false })
     //     , new SubscriptionStatus({ id: 2, name : 'All Hercules Developers', isSubscribed: true })
@@ -66,7 +66,7 @@ export default class App extends React.Component
       })
       .then(mailchimpAuth => {
         if (mailchimpAuth) {
-          return this.getInfo();
+          return this.loadData();
         }
       })
       .catch(e => {
@@ -74,7 +74,7 @@ export default class App extends React.Component
       })
   }
 
-  getInfo = () => {
+  loadData = () => {
     const { mailchimpAuth } = this.state;
     const authcInfo = new MailchimpAuthcInfo(mailchimpAuth);
     const { apiKey: key } = authcInfo;
@@ -85,22 +85,21 @@ export default class App extends React.Component
     const { context } = this.props.dpapp;
     context.getTabData()
       .then(tabData => tabData.api_data.person)
-      .then(parseMemberInfo)
-      .then(memberInfo => {
+      .then(parseSubscriberDetails)
+      .then(deskproSubscriberDetails => {
         return Promise.all([
-          fetchLists(client), fetchMemberInfo(client, memberInfo.email)
+          fetchLists(client), fetchSubscriberInfo(client, deskproSubscriberDetails)
         ])
-        .then(results => {
-          return {memberInfo, lists: results [0], listActivity: results[1][0], listMemberships: results[1][1]};
-        });
+        .then(results => { //normalize return results
+          return {lists: results [0], listActivity: results[1][0], listMemberships: results[1][1], subscriberDetails: results[1][2]}
+        })
       })
-      .then(({ memberInfo, lists, listActivity, listMemberships }) => {
-        const subscriptionStatusList = determineSubscriptions(lists, listMemberships);
-        const rating = determineAverageRating(listMemberships);
+      .then(({ subscriberDetails, lists, listActivity, listMemberships }) => {
+        const subscriptionStatusList = determineMembershipDetails(lists, listMemberships);
 
         const state = {
           subscriptionStatusList,
-          memberInfo: memberInfo.changeRating(rating),
+          subscriberDetails,
           memberActivityList: listActivity
         };
         this.setState(state);
@@ -145,6 +144,22 @@ export default class App extends React.Component
 
   };
 
+  /**
+   * @param {Array<MembershipDetails>} previousList
+   * @param {Array<MembershipDetails>} currentList
+   */
+  onSubscriptionStatusChange = (previousList, currentList) =>
+  {
+    const { mailchimpAuth, subscriberDetails } = this.state;
+    const authcInfo = new MailchimpAuthcInfo(mailchimpAuth);
+    const { apiKey: key } = authcInfo;
+
+    const { fetchCORS: fetch } = this.props.dpapp.restApi;
+    const client = new MailchimpFetchClient({ key, fetch });
+
+    updateListSubscriptions(client, subscriberDetails, previousList, currentList);
+  };
+
   onNewMailchimpAPIKey = apiKey => {
     // TODO try first the key
     const authc = new MailchimpAuthcInfo({apiKey: apiKey});
@@ -156,8 +171,8 @@ export default class App extends React.Component
   };
 
   renderHomeView = () => {
-    const { memberInfo, subscriptionStatusList, memberActivityList } = this.state;
-    return (<HomeView  memberInfo={memberInfo} subscriptionStatusList={subscriptionStatusList} memberActivityList={memberActivityList} />)
+    const { subscriberDetails, subscriptionStatusList, memberActivityList } = this.state;
+    return (<HomeView  subscriberDetails={subscriberDetails} subscriptionStatusList={subscriptionStatusList} memberActivityList={memberActivityList} onSubscriptionStatusChange={this.onSubscriptionStatusChange}/>)
   };
 
   render() {

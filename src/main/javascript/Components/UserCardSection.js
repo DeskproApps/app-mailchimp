@@ -14,46 +14,46 @@ const renderEmpty = () =>
 };
 
 /**
- * @param {MemberInfo} memberInfo
+ * @param {SubscriberDetails} memberDetails
  * @return {XML}
  */
-const renderNormal = ({ memberInfo }) =>
+const renderNormal = ({ memberDetails }) =>
 {
   return (
     <Layout.Section title="USER & RATING">
       <Layout.Block>
-        <div style={{ float: 'left' }}> {memberInfo.fullName} </div>
+        <div style={{ float: 'left' }}> {memberDetails.fullName} </div>
         <div style={{ float: 'right' }}>
           <span className="star-rating">
-            <input type="radio" name="rating" value="1" checked={1 === memberInfo.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="2" checked={2 === memberInfo.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="3" checked={3 === memberInfo.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="4" checked={ 4 === memberInfo.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="5" checked={ 5 === memberInfo.rating } readOnly={true} /><i/>
+            <input type="radio" name="rating" value="1" checked={1 === memberDetails.rating } readOnly={true} /><i/>
+            <input type="radio" name="rating" value="2" checked={2 === memberDetails.rating } readOnly={true} /><i/>
+            <input type="radio" name="rating" value="3" checked={3 === memberDetails.rating } readOnly={true} /><i/>
+            <input type="radio" name="rating" value="4" checked={ 4 === memberDetails.rating } readOnly={true} /><i/>
+            <input type="radio" name="rating" value="5" checked={ 5 === memberDetails.rating } readOnly={true} /><i/>
           </span>
         </div>
-        <div style={{ clear: 'all' }}>{memberInfo.email}</div>
+        <div style={{ clear: 'all' }}>{memberDetails.email}</div>
       </Layout.Block>
     </Layout.Section>
   );
 };
 
 /**
- * @param {MemberInfo} memberInfo
+ * @param {SubscriberDetails} memberDetails
  * @return {XML}
  * @constructor
  */
-export const UserCard = ({ memberInfo }) => {
+export const UserCard = ({ memberDetails }) => {
 
-  if (!memberInfo) {
+  if (!memberDetails) {
     return renderEmpty();
   }
 
-  return renderNormal({ memberInfo });
+  return renderNormal({ memberDetails });
 };
 
 UserCard.propTypes = {
-  memberInfo: React.PropTypes.object,
+  subscriberDetails: React.PropTypes.object,
 };
 
 

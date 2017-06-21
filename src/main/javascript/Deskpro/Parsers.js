@@ -1,6 +1,6 @@
-import {MemberInfo} from '../Domain'
+import {SubscriberDetails} from '../Domain'
 
-export const parseMemberInfo = person =>
+export const parseSubscriberDetails = person =>
 {
   const { display_name: fullName, emails, primary_email } = person;
 
@@ -11,5 +11,5 @@ export const parseMemberInfo = person =>
     email = emails[0].email;
   }
 
-  return new MemberInfo({email, fullName, rating:0, vip: false});
+  return new SubscriberDetails({email, fullName, rating: 0, vip: false});
 };

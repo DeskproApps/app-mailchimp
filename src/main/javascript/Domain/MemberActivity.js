@@ -2,19 +2,25 @@
 export class MemberActivity
 {
   /**
-   * @param {String} subjectLine
+   * @param {String} campaignTitle
    * @param {String} status
    * @param {String} date
+   * @param {String} campaignId
    */
-  constructor({ subjectLine, status, date })
+  constructor({ campaignTitle, status, date, campaignId })
   {
-    this.props = { subjectLine, status, date };
+    this.props = { campaignTitle, status, date, campaignId };
   }
 
   /**
    * @return {String}
    */
-  get subjectLine() { return this.props.subjectLine; }
+  get campaignId() { return this.props.campaignId; }
+
+  /**
+   * @return {String}
+   */
+  get campaignTitle() { return this.props.campaignTitle; }
 
   /**
    * @return {String}

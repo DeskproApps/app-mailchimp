@@ -1,1 +1,1 @@
-export {parseMemberInfo} from './Parsers';
+export {parseSubscriberDetails} from './Parsers';

@@ -59,12 +59,8 @@ export class FetchClient
     const url = endpoint.toString().startsWith(urlPrefix) ? endpoint : urlPrefix + endpoint;
 
     let { body } = init;
-    if (typeof body !== 'undefined') {
-      headersOverride['Content-Type'] = 'application/x-www-form-urlencoded';
-      if (typeof body !== 'string') {
-        body = JSON.stringify(body);
-        headersOverride['Content-Length'] = body.length;
-      }
+    if (typeof body !== 'undefined' ) {
+      headersOverride['Content-Length'] = typeof body !== 'string' ? JSON.stringify(body).length : body.length;
     }
 
     const initOverride = typeof body === 'string' ? {body, headers: headersOverride} : {headers: headersOverride};

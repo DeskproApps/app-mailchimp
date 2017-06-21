@@ -14,10 +14,23 @@ export class List
 
 export class ListMember
 {
-  constructor ({ email, rating, vip, listId })
+  /**
+   * @param {String} email
+   * @param {Number} rating
+   * @param {Boolean} vip
+   * @param {String} id
+   * @param {String} listId
+   * @param {('subscribed'|'unsubscribed'|'cleaned'|'pending'|'transaction')} listStatus
+   * @see http://developer.mailchimp.com/documentation/mailchimp/reference/lists/members/#edit-put_lists_list_id_members_subscriber_hash
+   */
+  constructor ({ email, rating, vip, id, listId, listStatus })
   {
-    this.props = { email, rating, vip, listId };
+    this.props = { email, rating, vip, id, listId, listStatus };
   }
+
+  isSubscribed = () => this.props.listStatus === 'subscribed';
+
+  get id() { return this.props.id; }
 
   get email() { return this.props.email; }
 
@@ -26,5 +39,7 @@ export class ListMember
   get vip() { return this.props.vip; }
 
   get listId() { return this.props.listId; }
+
+  get listStatus() { return this.props.listStatus; }
 }
 

@@ -55,7 +55,7 @@ export class MemberActivityList extends React.Component
     return (
 
       <div className="item">
-        <div className="header">{status.subjectLine}</div>
+        <div className="header">{status.campaignTitle}</div>
         <div className="description text small"><span>{status.date}</span> <span>|</span> <span>{status.status}</span></div>
       </div>
     );

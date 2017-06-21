@@ -1,4 +1,4 @@
-import {MemberActivity} from '../Domain'
+import {MemberActivity, SubscriberDetails} from '../Domain'
 import {ListMember, List} from './APIResources'
 
 /**
@@ -19,11 +19,11 @@ export const parseLists = mailchimpAPIList =>
  * @param {Array<{}>} mailchimpAPIList
  * @return {Array<ListMember>}
  */
-export const parseListMemberInfoList = mailchimpAPIList =>
+export const parseListMemberList = mailchimpAPIList =>
 {
   const mapper = info => {
-    const {vip, member_rating: rating, list_id: listId, email_address: email} = info;
-    return new ListMember({ email, rating, vip, listId });
+    const {id, vip, member_rating: rating, list_id: listId, email_address: email, status: listStatus} = info;
+    return new ListMember({ id, email, rating, vip, listId, listStatus });
   };
 
   return mailchimpAPIList.map(mapper);
@@ -56,7 +56,8 @@ export const parseMemberActivityLinks = mailchimpAPIList =>
 export const parseMemberActivityList = mailchimpAPIList =>
 {
   const mapper = activity => {
-    const { action: status, timestamp, title: subjectLine } = activity;
+
+    const { action: status, timestamp, title: campaignTitle, campaign_id: campaignId } = activity;
 
     const date = new Date(timestamp);
     const formattedDate = [
@@ -65,8 +66,24 @@ export const parseMemberActivityList = mailchimpAPIList =>
       , date.getFullYear()
     ].join('/');
 
-    return new MemberActivity({ subjectLine, status, date: formattedDate  });
+    return new MemberActivity({ campaignTitle, status, date: formattedDate, campaignId });
   };
 
   return mailchimpAPIList.map(mapper);
+};
+
+/**
+ * @param {Array<{}>} mailchimpAPIList
+ * @return {SubscriberDetails}
+ */
+export const parseSubscriberDetails = mailchimpAPIList =>
+{
+  const listMembers = parseListMemberList(mailchimpAPIList);
+  if (listMembers.length === 0) { return null; }
+
+  const { id: subscriberHash, email, vip } = listMembers[0];
+  const avg = listMembers.reduce((acc, member) => acc + member.rating, 0) / listMembers.length;
+  const rating = Math.round(avg);
+
+  return new SubscriberDetails({ subscriberHash, email, rating, vip });
 };

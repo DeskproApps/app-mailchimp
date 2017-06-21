@@ -1,4 +1,4 @@
 export {MemberActivity} from './MemberActivity';
-export {MemberInfo} from './MemberInfo';
-export {SubscriptionStatus} from './SubscriptionStatus';
+export {SubscriberDetails} from './SubscriberDetails';
+export {MembershipDetails} from './MembershipDetails';
 export {MailchimpAuthcInfo} from './MailchimpAuthcInfo';

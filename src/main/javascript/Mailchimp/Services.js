@@ -1,7 +1,9 @@
-import {parseLists, parseListMemberInfoList, parseMemberActivityLinks, parseMemberActivityList} from './Parsers'
-import {SubscriptionStatus} from '../Domain'
+import {parseLists, parseListMemberList, parseMemberActivityLinks, parseMemberActivityList, parseSubscriberDetails} from './Parsers'
+import {MembershipDetails} from '../Domain'
 
 const promiseReflect = promise => promise.then(value => ({ value, status: 'resolved' }), error => ({ error, status: 'rejected' }));
+
+const retainOnlyCampaignActivity = memberActivityList => memberActivityList.filter(activity => !!activity.campaignId);
 
 /**
  * @param {Array} results
@@ -31,64 +33,101 @@ export const fetchLists = client =>
 };
 
 /**
- *
  * @param {FetchClient} client
- * @param {String} email
+ * @param {SubscriberDetails} subscriber
  * @return {Promise}
  */
-export const fetchMemberInfo = (client, email) =>
+export const fetchSubscriberInfo = (client, subscriber) =>
 {
-  return client.fetch(`/search-members?query=${email}`, { method: 'GET' })
+  return client.fetch(`/search-members?query=${subscriber.email}`, { method: 'GET' })
     .then(response => response.body.exact_matches.members)
     .then(members => {
       //TODO error handling
 
       const memberActivityListPromises = parseMemberActivityLinks(members)
-          .map(url => client.fetch(url, { method: 'GET' }))
-          .map(promiseReflect)
-        ;
+        .map(url => client.fetch(url, { method: 'GET' }))
+        .map(promiseReflect)
+      ;
 
       const memberActivityList = Promise
-          .all(memberActivityListPromises)
-          .then(retainResolved)
-          .then(responses => responses.map(response => response.body.activity).reduce((acc, list) => acc.concat(list), []))
-          .then(parseMemberActivityList)
-        ;
+        .all(memberActivityListPromises)
+        .then(retainResolved)
+        .then(responses => responses.map(response => response.body.activity).reduce((acc, list) => acc.concat(list), []))
+        .then(parseMemberActivityList)
+        .then(retainOnlyCampaignActivity)
+      ;
 
       return Promise.all([
         memberActivityList,
-        Promise.resolve(parseListMemberInfoList(members)), // memberInfoList
+        Promise.resolve(parseListMemberList(members)), // memberInfoList,
+        Promise.resolve(parseSubscriberDetails(members)).then(details => details ? subscriber.merge(details) : subscriber), // memberDetails
       ].map(promiseReflect)).then(retainResolved);
     });
 };
 
 /**
- * @param {Array<ListMember>} listMembers
- * @return {number}
+ * @param {FetchClient} client
+ * @param {SubscriberDetails} subscriberDetails
+ * @param {Array<MembershipDetails>} previousList
+ * @param {Array<MembershipDetails>} currentList
  */
-export const determineAverageRating = listMembers =>
+export const updateListSubscriptions = (client, subscriberDetails, previousList, currentList) =>
 {
-  if (listMembers.length === 0) {
-    return 0;
+  if (previousList.length !== currentList.length) {
+    throw new Error('previous and current lists must have the same length');
   }
 
-  const avg = listMembers.reduce((acc, member) => acc + member.rating, 0) / listMembers.length;
-  return Math.round(avg);
+  const fetchPromises = [];
+  const changesSize = previousList.length;
+  for (let i = 0; i < changesSize; i++) {
+      const previousDetails = previousList[i];
+      const currentDetails = currentList[i];
+      const isNew = !previousDetails.isMember();
+
+      let promise;
+
+      if (isNew) {
+        promise = client.fetch(
+          `/lists/${currentDetails.listId}/members`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              email_address: subscriberDetails.email , status: currentDetails.subscriberStatus
+            }) }
+        );
+      } else {
+        promise = client.fetch(
+          `/lists/${currentDetails.listId}/members/${subscriberDetails.subscriberHash}`,
+          { method: 'PATCH', body: JSON.stringify({  status: currentDetails.subscriberStatus }) }
+        );
+      }
+
+    fetchPromises.push(promise);
+  }
+
+  return Promise.all(fetchPromises);
 };
+
 
 /**
  * @param {Array<List>} lists
  * @param {Array<ListMember>} listMembers
- * @return {Array<SubscriptionStatus>}
+ * @return {Array<MembershipDetails>}
  */
-export const determineSubscriptions = (lists, listMembers) => {
+export const determineMembershipDetails = (lists, listMembers) =>
+{
+  const listMemberMap = listMembers.reduce(
+    (acc, listMember) => {
+      acc[listMember.listId] = listMember;
+      return acc;
+    }, {});
 
-  const listIds = listMembers.map(listMember => listMember.listId);
   const mapper = list => {
-    const {id, name} = list;
-    const isSubscribed = listIds.indexOf(list.id) !== -1;
+    const {id, name: listName} = list;
+    const listMember = listMemberMap[id];
+    const subscriberStatus = listMember ? listMember.listStatus : 'not-a-member' ;
 
-    return new SubscriptionStatus({ id, name, isSubscribed });
+    return new MembershipDetails({ id, listName, subscriberStatus });
   };
 
   return lists.map(mapper);

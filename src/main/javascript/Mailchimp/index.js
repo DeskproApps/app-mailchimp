@@ -1,3 +1,3 @@
 
 export {FetchClient as MailchimpFetchClient} from './FetchClient'
-export {fetchMemberInfo, fetchLists, determineSubscriptions, determineAverageRating} from './Services'
+export {fetchSubscriberInfo, fetchLists, updateListSubscriptions, determineMembershipDetails, determineAverageRating} from './Services'
