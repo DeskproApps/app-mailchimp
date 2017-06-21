@@ -16,5 +16,7 @@
   ],
   "settings": [],
   "deskpro_api_tags": [],
-  "external_apis": []
+  "external_apis": [
+    "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
+  ]
 }
