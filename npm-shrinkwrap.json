@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "dependencies": {
     "@deskproapps/deskproapps-sdk-core": {
-      "version": "1.0.0-alpha.8",
-      "from": "@deskproapps/deskproapps-sdk-core@1.0.0-alpha.8",
-      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-core/-/deskproapps-sdk-core-1.0.0-alpha.8.tgz"
+      "version": "1.0.0-alpha.9",
+      "from": "@deskproapps/deskproapps-sdk-core@1.0.0-alpha.9",
+      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-core/-/deskproapps-sdk-core-1.0.0-alpha.9.tgz"
     },
     "@deskproapps/deskproapps-sdk-react": {
-      "version": "1.0.0-alpha.7",
-      "from": "@deskproapps/deskproapps-sdk-react@1.0.0-alpha.7",
-      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-react/-/deskproapps-sdk-react-1.0.0-alpha.7.tgz"
+      "version": "1.0.0-alpha.8",
+      "from": "@deskproapps/deskproapps-sdk-react@1.0.0-alpha.8",
+      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-react/-/deskproapps-sdk-react-1.0.0-alpha.8.tgz"
     },
     "align-text": {
       "version": "0.1.4",
