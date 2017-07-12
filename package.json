@@ -1,6 +1,6 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A foundation to get you started developing React DeskPro Apps with the best developer experience ",
   "main": "lib/main/javascript/index.js",
   "scripts": {
@@ -23,10 +23,24 @@
   },
   "homepage": "https://github.com/DeskproApps/app-mailchimp#readme",
   "dependencies": {
-    "@deskproapps/deskproapps-sdk-react": "^1.0.0-alpha.8"
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.11"
   },
   "devDependencies": {
-    "@deskproapps/dpat": "0.3.4",
+    "@deskproapps/dpat": "0.4.6",
     "react-custom-scrollbars": "^4.1.1"
+  },
+  "deskpro" : {
+    "version": "2.1.0",
+    "title": "Mailchimp",
+    "isSingle": true,
+    "scope": "agent",
+    "targets": [
+      { "target": "ticket-sidebar", "url": "html/ticket-sidebar.html" }
+    ],
+    "settings": [],
+    "deskproApiTags": ["tickets.*"],
+    "externalApis": [
+      "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
+    ]
   }
 }
