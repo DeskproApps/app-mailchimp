@@ -18,5 +18,13 @@
   "deskpro_api_tags": [],
   "external_apis": [
     "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
+  ],
+  "state" : [
+    {
+      "name": "settings",
+      "isBackendOnly": false,
+      "permRead": "EVERYBODY",
+      "permWrite": "OWNER"
+    }
   ]
 }

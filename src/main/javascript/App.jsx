@@ -28,34 +28,6 @@ export default class App extends React.Component
       memberActivityList: [],
     };
 
-    // const dummyDataState = {
-    //   subscriberDetails: new MemberInfo({ email: 'zack.prudent@techcompany.com', fullName: 'Zack Prudent', rating: 4 }),
-    //   subscriptionStatusList: [
-    //     new SubscriptionStatus({ id: 1, name : 'iPhone 6s & Plus SDK Issue', isSubscribed: false })
-    //     , new SubscriptionStatus({ id: 2, name : 'All Hercules Developers', isSubscribed: true })
-    //     , new SubscriptionStatus({ id: 3, name : 'Deskpro Developers', isSubscribed: false })
-    //     , new SubscriptionStatus({ id: 4, name : 'List no. 4', isSubscribed: false })
-    //     , new SubscriptionStatus({ id: 5, name : 'List no. 5', isSubscribed: false })
-    //
-    //   ],
-    //   memberActivityList: [
-    //     new MemberActivity({ subjectLine: 'Schedules API', status: 'DELIVERED', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'API Breaking Changes: DELETE Response code change', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Deskpro Apps Newsletter 9', status: 'READ', date: '03/02/2016' }),
-    //     new MemberActivity({ subjectLine: 'Browser Optimisation', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Major new features', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: '7/16 Important Change Notice', status: 'ClICKED', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Browser Optimisation', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Major new features', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: '7/16 Important Change Notice', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Deskpro Apps Newsletter 9', status: 'UNREAD', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Browser Optimisation', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Major new features', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: '7/16 Important Change Notice', status: 'READ', date: '11/03/2016' }),
-    //     new MemberActivity({ subjectLine: 'Must scroll to view it', status: 'UNREAD', date: '11/03/2016' }),
-    //   ],
-    // };
-
   };
 
   componentDidMount()
@@ -108,9 +80,9 @@ export default class App extends React.Component
 
   getMailchimpAuth = () =>
   {
-    const { appState } = this.props.dpapp;
+    const { state } = this.props.dpapp;
 
-    return appState.asyncGetPrivate('settings')
+    return state.getAppState('settings')
       .then(state => {
         return !state ? null : state;
       })
@@ -130,10 +102,9 @@ export default class App extends React.Component
    */
   updateMailchimpAuth = (mailchimpAuthc) =>
   {
-    const { appState } = this.props.dpapp;
+    const { state } = this.props.dpapp;
 
-    return appState
-      .asyncSetPrivate('settings', mailchimpAuthc.toJS())
+    return state.setAppState('settings', mailchimpAuthc.toJS())
       .catch(err => {
         console.log('got error', err);
         return err;
