@@ -1,16 +1,16 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@deskproapps/deskproapps-sdk-core": {
-      "version": "1.0.0-alpha.9",
-      "from": "@deskproapps/deskproapps-sdk-core@1.0.0-alpha.9",
-      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-core/-/deskproapps-sdk-core-1.0.0-alpha.9.tgz"
+      "version": "1.0.0-alpha.12",
+      "from": "@deskproapps/deskproapps-sdk-core@1.0.0-alpha.12",
+      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-core/-/deskproapps-sdk-core-1.0.0-alpha.12.tgz"
     },
     "@deskproapps/deskproapps-sdk-react": {
-      "version": "1.0.0-alpha.8",
-      "from": "@deskproapps/deskproapps-sdk-react@>=1.0.0-alpha.8 <2.0.0",
-      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-react/-/deskproapps-sdk-react-1.0.0-alpha.8.tgz"
+      "version": "1.0.0-alpha.11",
+      "from": "@deskproapps/deskproapps-sdk-react@1.0.0-alpha.11",
+      "resolved": "https://registry.npmjs.org/@deskproapps/deskproapps-sdk-react/-/deskproapps-sdk-react-1.0.0-alpha.11.tgz"
     },
     "align-text": {
       "version": "0.1.4",
@@ -33,9 +33,9 @@
       "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.1.tgz"
     },
     "asap": {
-      "version": "2.0.5",
+      "version": "2.0.6",
       "from": "asap@>=2.0.3 <2.1.0",
-      "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.5.tgz"
+      "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
     },
     "async": {
       "version": "1.5.2",
@@ -257,9 +257,9 @@
       "resolved": "https://registry.npmjs.org/iterall/-/iterall-1.1.1.tgz"
     },
     "js-tokens": {
-      "version": "3.0.1",
+      "version": "3.0.2",
       "from": "js-tokens@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-3.0.1.tgz"
+      "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-3.0.2.tgz"
     },
     "kind-of": {
       "version": "3.2.2",
