@@ -1,14 +1,14 @@
 language: node_js
 node_js:
-  - "6"
+- '6'
 install:
-  - npm install
+- npm install
 script:
-  - npm run package
+- npm run package
 deploy:
   provider: releases
   api_key:
-    secure: "z3FAvrxxYDz1VhgrW/u1hcaBKbT0mrLjZNKhg9EIElsnasjqm5VGgvXmpKRWF1dqhEQbD8a9N2wtGhOYYARkY3mpw5eBkNzGAZA/Pd/baF3nctG/cd0xzHMjruitsY1cD/LrkBVrLcSerxcylsB38FJ6IGp0AVrQPWPTh0RMdXJ7JgLZb+QO2OAeHZWws8qxwXz56GoiQDGFsS+zhBgH0vEx8+7nUFe38E/n97BJuw65ypP+PW7cYC7djsTdYBCUfdgdHs4MyFDLFxf769MVasj0ErWcN4WV27OcbXweHmjW3gmo9bAifAI6LDs/2E0UaQiGV73CN1dRV3oBNf9q8lMqT9imXF2yaMziK14qyimgVD8oea3o0EU9B3nxUYa/smKKRMU6NBqgHhot3+k4DWYaVawH+dJlKtG2jyG3IiXlx5LtqX3vcGfSrsjM6gC9/VL/dNs89pMUZFDipJB7K+5tp6rBw1iIlCFXHyMN8wnS3QrPhRkR2fOmVI8pZeReD7TU+OBiR1VR/T7Bn9btP+S6KuCkNSqM7z4FhNLHPppiWt3hFoRnkmuN93Gyd254k+7jz9/MI19S+iFgH5lrOmgHIJHtIaZDXdRvOU3TZ/ranUkUzZLSW8pU2F3nF9mDLCKGZ5wS9nJ3bWSfDQ8OGBeJPWhGd3qMTjlKDezjZuQ="
+    secure: y78mBMpmZA3LnrkK10TAZ8TFGYqEYo6D9R2gO53miON3r4hwDx2DBdsU0sV1YpDsVdZ/RBr/cHs8ej8N5LMqoK5ic07P6E2BAro3S1INs/CbHtgJsFb1jxAelzjQf8h4oRjz8hhLETaLydoxt0YnrscdOPsr4i7JJPQjU8to+XQt7vqtAR9jIq02O4h8i/6yC+iRzD0Oswjy3NeOCgO/tK+Y7YZ3rDWq0WOzHIrZ60aj16+CxdXRbL/kR45/LMaF9YEwj3gwM/um39vyUh8h3PyIdMb8IBWEE4cQi/zrPfA29rEFWeVSJS7ASRYfGVFvWqG4l+/P4N05JqzLJ4BabRWLc8KHs2uW/QudabUG+085t80FQKmGGByCBtkFbCUVx+hea7U6uZ5+GIcay+5eupYJdm6/vNJbsrq52znZr1CFP5o4ZhIwR4xeN4wFDAaCLl/guKgd9mDeYmqC1eUMMy62DqodX3rcj3s9RBmLVbpDLGbvZnNvu23Zz8wlCkl1Hi1yMMEZqQnFoFkYPu6pCqqiR2VFLgU7RYsXkRYGC67LgAuWLKc3Xt8AFRTK3LjHHlOQJTQ7TGk0aaxdvBcWisewtDY749Q3aYBf6EM4NUNlzdbPJpzxVncOwBYzU7paatFHKP0C20OMSjnNfpzUJTYL+sXdCv5PLS++vEnktWE=
   file: dist/app.zip
   skip_cleanup: true
   on:
