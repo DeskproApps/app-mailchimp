@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "6"
+install:
+  - npm install
+script:
+  - npm run package
+deploy:
+  provider: releases
+  api_key:
+    secure: "z3FAvrxxYDz1VhgrW/u1hcaBKbT0mrLjZNKhg9EIElsnasjqm5VGgvXmpKRWF1dqhEQbD8a9N2wtGhOYYARkY3mpw5eBkNzGAZA/Pd/baF3nctG/cd0xzHMjruitsY1cD/LrkBVrLcSerxcylsB38FJ6IGp0AVrQPWPTh0RMdXJ7JgLZb+QO2OAeHZWws8qxwXz56GoiQDGFsS+zhBgH0vEx8+7nUFe38E/n97BJuw65ypP+PW7cYC7djsTdYBCUfdgdHs4MyFDLFxf769MVasj0ErWcN4WV27OcbXweHmjW3gmo9bAifAI6LDs/2E0UaQiGV73CN1dRV3oBNf9q8lMqT9imXF2yaMziK14qyimgVD8oea3o0EU9B3nxUYa/smKKRMU6NBqgHhot3+k4DWYaVawH+dJlKtG2jyG3IiXlx5LtqX3vcGfSrsjM6gC9/VL/dNs89pMUZFDipJB7K+5tp6rBw1iIlCFXHyMN8wnS3QrPhRkR2fOmVI8pZeReD7TU+OBiR1VR/T7Bn9btP+S6KuCkNSqM7z4FhNLHPppiWt3hFoRnkmuN93Gyd254k+7jz9/MI19S+iFgH5lrOmgHIJHtIaZDXdRvOU3TZ/ranUkUzZLSW8pU2F3nF9mDLCKGZ5wS9nJ3bWSfDQ8OGBeJPWhGd3qMTjlKDezjZuQ="
+  file: dist/app.zip
+  skip_cleanup: true
+  on:
+    tags: true
