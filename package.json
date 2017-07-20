@@ -1,7 +1,7 @@
 {
   "name": "@deskproapps/app-mailchimp",
   "version": "0.1.1",
-  "description": "A foundation to get you started developing React DeskPro Apps with the best developer experience ",
+  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
   "main": "lib/main/javascript/index.js",
   "scripts": {
     "dev": "dpat server .",

@@ -1,6 +1,6 @@
 ## Upcoming
 
-* Remove custom webpack configuration
+* [MAINTENANCE] upgrade dependencies
 
 
 ## v0.1.0 - 2017-04-28
