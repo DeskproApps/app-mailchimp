@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeskproApps/app-mailchimp.git"
+    "url": "git+https://github.com/DeskproApps/mailchimp.git"
   },
   "keywords": [
     "deskpro",
@@ -23,9 +23,9 @@
   },
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/DeskproApps/app-mailchimp/issues"
+    "url": "https://github.com/DeskproApps/mailchimp/issues"
   },
-  "homepage": "https://github.com/DeskproApps/app-mailchimp#readme",
+  "homepage": "https://github.com/DeskproApps/mailchimp#readme",
   "dependencies": {
     "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.11"
   },
