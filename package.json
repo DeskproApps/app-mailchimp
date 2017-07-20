@@ -30,7 +30,7 @@
     "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.11"
   },
   "devDependencies": {
-    "@deskproapps/dpat": "0.4.8",
+    "@deskproapps/dpat": "0.4.9",
     "react-custom-scrollbars": "^4.1.1"
   },
   "deskpro" : {
@@ -46,7 +46,7 @@
       {
         "name": "settings",
         "isBackendOnly": false,
-        "permRead": "EVERYBODYS",
+        "permRead": "EVERYBODY",
         "permWrite": "OWNER"
       }
     ],
