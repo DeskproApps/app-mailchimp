@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { HomeView, AuthenticationView } from './Components'
-import { MemberActivity, SubscriberDetails, MailchimpAuthcInfo } from './Domain'
+import { MemberActivity, SubscriberDetails } from './Domain'
 
-import { MailchimpFetchClient, fetchLists, fetchSubscriberInfo, updateListSubscriptions, determineMembershipDetails } from './Mailchimp';
+import { MailchimpFetchClient, MailchimpAuthcInfo, MailchimpAuthenticationError, fetchLists, fetchSubscriberInfo, updateListSubscriptions, determineMembershipDetails } from './Mailchimp';
 import { parseSubscriberDetails } from './Deskpro';
 
 export default class App extends React.Component
@@ -20,7 +20,7 @@ export default class App extends React.Component
   initState = () =>
   {
     this.state = {
-      activeView: '',
+      activeView: 'home',
       mailchimpAuth: new MailchimpAuthcInfo({}).toJS(),
       dataLoadedTimestamp: null,
       subscriberDetails: null,
@@ -32,23 +32,13 @@ export default class App extends React.Component
 
   componentDidMount()
   {
-    this.getMailchimpAuth()
-      .then(authc => { //normalize result
-        if (!authc) { return null; }
-        if (authc.oauthToken || authc.apiKey) { return authc; }
-        return null;
-      })
-      .then(this.onRetrieveMailchimpAuthc)
-    ;
-      // .catch(e => {
-      //   console.log('error', e);
-      // })
+    this.loadMailchimpAuth().then(this.onRetrieveMailchimpAuthc);
   }
 
   /**
    * @param {MailchimpAuthcInfo} authcInfo
    *
-   * @return {Promise}
+   * @return {Promise.<MailchimpAuthcInfo>}
    */
   createClient = (authcInfo) =>
   {
@@ -83,29 +73,27 @@ export default class App extends React.Component
           subscriberDetails,
           memberActivityList: listActivity
         };
-        this.setState(state);
 
         return state;
       })
   };
 
-  getMailchimpAuth = () =>
+  /**
+   * @return {Promise.<MailchimpAuthcInfo>}
+   */
+  loadMailchimpAuth = () =>
   {
     const { state } = this.props.dpapp;
 
     return state.getAppState('settings')
       .then((state) => {
-        return !state ? null : state;
+        return state ? MailchimpAuthcInfo.fromJS(state) : null;
       })
       .catch(err => {
         // console.log('got error', err);
-        return err;
-      })
-      .then((result) => {
-        if (result instanceof Error || result === null) {
+        if (err instanceof Error || err === null) {
           return null;
         }
-        return new MailchimpAuthcInfo(result);
       });
   };
 
@@ -146,14 +134,34 @@ export default class App extends React.Component
    */
   onRetrieveMailchimpAuthc = (authc) =>
   {
-    const stateUpdate = authc ? { activeView: 'home', mailchimpAuth: authc.toJS() } : { activeView: 'authenticate' };
-    this.setState(stateUpdate);
+    const hasValidAuthc = authc && authc.apiCredentials;
 
-    if (authc) {
-      return this.createClient(authc).then(this.loadData).then(() => authc)
+    const mailchimpAuth  = hasValidAuthc ?  authc.toJS() : new MailchimpAuthcInfo({}).toJS();
+    const activeView = hasValidAuthc ? 'home' : 'authenticate';
+
+    const viewState = {activeView, mailchimpAuth};
+    const authcView = { activeView: 'authenticate', mailchimpAuth: new MailchimpAuthcInfo({}).toJS() };
+
+    if (hasValidAuthc) {
+
+      const handleAuthcError = (err) => {
+        if (err instanceof MailchimpAuthenticationError) {
+          this.setState(authcView);
+        }
+        return Promise.reject(err);
+      };
+
+      return this.createClient(authc)
+        .then(this.loadData)
+        .then((stateChanges) => {
+          this.setState({...stateChanges, ...viewState})
+        })
+        .then(() => authc)
+        .catch(handleAuthcError)
     }
 
-    return Promise.resolve(authc);
+    this.setState(authcView);
+    return Promise.reject(new Error('missing or invalid authentication'));
   };
 
   /**
@@ -164,21 +172,25 @@ export default class App extends React.Component
     const { dpapp } = this.props;
     const { dataLoadedTimestamp } = this.state;
 
-    return dpapp.oauth2('mailchimp')
-      .then((oauthToken) => new MailchimpAuthcInfo({ oauthToken, apiKey: null }))
+    return dpapp.oauth.access('mailchimp')
+      .then((oauth2Token) => new MailchimpAuthcInfo({ oauth2Token, apiKey: null }))
       .then(this.updateMailchimpAuth)
       .then(mailchimpAuthc => {
-        this.setState({ activeView: 'home', mailchimpAuth: mailchimpAuthc.toJS() });
+        const homeView = { activeView: 'home', mailchimpAuth: mailchimpAuthc.toJS() };
+        this.setState(homeView);
         return mailchimpAuthc;
       })
       .then((mailchimpAuthc) => {
         if (!dataLoadedTimestamp) {
-          return this.createClient(authc).then(this.loadData).then(() => mailchimpAuthc)
+          return this.createClient(mailchimpAuthc)
+            .then(this.loadData)
+            .then((stateChanges) => {
+              this.setState(stateChanges);
+              return mailchimpAuthc;
+            })
         }
         return mailchimpAuthc;
-
       })
-      .then((mailchimpAuthc) => mailchimpAuthc.oauthAccessToken)
     ;
   };
 

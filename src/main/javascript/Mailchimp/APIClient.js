@@ -1,4 +1,6 @@
 import { Client as BatchesClient } from './Batches'
+import { ApiCredentials } from './Authentication'
+import { AuthenticationError } from './Errors'
 
 const parseApiHostFromApiKey = (apiKey, { useFallback }) =>
 {
@@ -25,25 +27,27 @@ const parseApiHostFromApiKey = (apiKey, { useFallback }) =>
 export class FetchClient
 {
   /**
-   * @param {String} accessToken
-   * @param {String} apiToken
+   * @param {ApiCredentials} credentials
    * @param {function} fetch
    *
    * @return Promise.<FetchClient>
    */
-  static withOauthAccess({accessToken, apiToken, fetch})
+  static withOauthAccess({credentials, fetch})
   {
-    const fetchParams =       {
+    const apiToken = credentials.encode();
+
+    const fetchParams = {
       method: "GET",
       headers: {
         'Content-Type': 'application/json' ,
         'Accept': 'application/json' ,
-        'Authorization':  'OAuth ' + accessToken
+        'Authorization':  apiToken
       }
     };
 
     return fetch('https://login.mailchimp.com/oauth2/metadata', fetchParams)
-      .then(response => response.body)
+      .catch(err => Promise.reject(new AuthenticationError('api access denied', err)))
+      .then(response => { return response.body; })
       .then(({ dc, login_url, api_endpoint }) => {
         const apiHost = dc + '.api.mailchimp.com';
         return new FetchClient({ apiToken, apiHost, fetch });
@@ -52,15 +56,17 @@ export class FetchClient
   }
 
   /**
-   * @param {String} apiKey
-   * @param {String} apiToken
+   * @param {ApiCredentials} credentials
    * @param {function} fetch
    *
    * @return Promise.<FetchClient>
    */
-  static withApiKeyAccess({apiKey, apiToken, fetch})
+  static withApiKeyAccess({credentials, fetch})
   {
-    const apiHost = parseApiHostFromApiKey(apiKey);
+    const apiToken = credentials.encode();
+    const { accessToken: apiKey } = credentials;
+
+    const apiHost = parseApiHostFromApiKey(apiKey, { useFallback: false });
     if (apiHost) {
       return Promise.resolve(new FetchClient({ apiToken, apiHost, fetch }));
     }
@@ -75,21 +81,21 @@ export class FetchClient
    */
   static fromAuthc(mailchimpAuth, fetch)
   {
-    const { apiKey, oauthAccessToken, apiToken } = mailchimpAuth;
+    const credentials = mailchimpAuth.apiCredentials;
 
-    if (! apiToken) {
-      return Promise.reject(new Error('no authentication tokens available'));
+    if (! credentials) {
+      return Promise.reject(new Error('no authentication credentials available'));
     }
 
-    if (apiKey) {
-      return FetchClient.withApiKeyAccess({apiKey, apiToken, fetch});
+    if (credentials.accessType === ApiCredentials.ACCESS_APIKEY) {
+      return FetchClient.withApiKeyAccess({credentials, fetch});
     }
 
-    if (oauthAccessToken) {
-      return FetchClient.withOauthAccess({accessToken: oauthAccessToken, apiToken, fetch});
+    if (credentials.accessType === ApiCredentials.ACCESS_OAUTH) {
+      return FetchClient.withOauthAccess({credentials, fetch});
     }
 
-    return Promise.reject(new Error('no authentication tokens available'));
+    return Promise.reject(new Error('no authentication credentials available'));
   }
 
   // https://login.mailchimp.com/oauth2/metadata

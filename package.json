@@ -27,22 +27,26 @@
   },
   "homepage": "https://github.com/DeskproApps/mailchimp#readme",
   "dependencies": {
-    "@deskproapps/deskproapps-sdk-react": "1.0.0-beta.2"
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-beta.3",
+    "error-wrapper": "2.1.0"
   },
   "devDependencies": {
     "@deskproapps/dpat": "0.4.9",
     "react-custom-scrollbars": "^4.1.1"
   },
-  "deskpro" : {
+  "deskpro": {
     "version": "2.1.0",
     "title": "Mailchimp",
     "isSingle": true,
     "scope": "agent",
     "targets": [
-      { "target": "ticket-sidebar", "url": "html/index.html" }
+      {
+        "target": "ticket-sidebar",
+        "url": "html/index.html"
+      }
     ],
     "settings": [],
-    "state" : [
+    "state": [
       {
         "name": "settings",
         "isBackendOnly": false,
@@ -50,7 +54,9 @@
         "permWrite": "OWNER"
       }
     ],
-    "deskproApiTags": ["tickets.*"],
+    "deskproApiTags": [
+      "tickets.*"
+    ],
     "externalApis": [
       "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
     ]
