@@ -52,6 +52,18 @@
         "isBackendOnly": false,
         "permRead": "EVERYBODY",
         "permWrite": "OWNER"
+      },
+      {
+        "name": "userSettings",
+        "isBackendOnly": false,
+        "permRead": "OWNER",
+        "permWrite": "OWNER"
+      },
+      {
+        "name": "oauth:mailchimp",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "OWNER"
       }
     ],
     "deskproApiTags": [
