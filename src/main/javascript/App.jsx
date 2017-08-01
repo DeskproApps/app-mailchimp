@@ -28,6 +28,9 @@ export default class App extends React.Component
         mailchimpAuthType: 'oauth', // 'api-key', 'oauth'
         mailchimpOauthConnectionStatus: 'unregistered',
       },
+      oauthSettings: {
+        urlRedirect: ''
+      },
 
       dataLoadedTimestamp: null,
       subscriberDetails: null,
@@ -39,46 +42,60 @@ export default class App extends React.Component
 
   componentDidMount()
   {
-    const setState = this.setState.bind(this);
-
-    this.loadSettings()
-      .then(this.setSettingsState)
+    this.loadAllSettings()
+      .then(this.setAllSettingsState)
       .then(this.loadData)
       .catch((err) => {
         if (err instanceof MailchimpAuthenticationError) {
           return { activeView: 'authenticate' };
         }
+        return {};
       })
-      .then(setState)
+      .then(this.setState.bind(this))
     ;
   }
 
-  loadSettings = () =>
+  loadAllSettings = () =>
   {
     const { state } = this.props.dpapp;
+    const { oauth } = this.props.dpapp;
 
     return Promise.all([
       state.getAppState('settings'),
-      state.getAppState('userSettings')
+      state.getAppState('userSettings'),
+      oauth.settings('mailchimp')
     ])
     .then((results) => {
-      return { settings: results[0], userSettings: results[1] }
+      return { settings: results[0], userSettings: results[1], oauthSettings: results[2] }
     });
   };
 
   /**
-   * @return {Promise.<MailchimpAuthcInfo>}
+   * @param settings
+   * @param userSettings
+   * @param oauthSettings
+   * @return {{settings, userSettings}}
    */
-  setSettingsState = ({ settings, userSettings }) =>
+  setAllSettingsState = ({ settings, userSettings, oauthSettings }) =>
   {
-    const { settings: defaultSettings, userSettings: defaultUserSettings } = this.state;
+    const {
+      settings: defaultSettings,
+      userSettings: defaultUserSettings,
+      oauthSettings: defaultOauthSettings,
+    } = this.state;
 
-    this.setState({
-      settings: settings ? settings : defaultSettings,
-      userSettings: userSettings ? userSettings : defaultUserSettings,
+    const newSettings = settings ? settings : defaultSettings;
+    const newUserSettings = userSettings ? userSettings : defaultUserSettings;
+    const newOauthSettings = oauthSettings ? oauthSettings : defaultOauthSettings;
 
-    });
-    return settings;
+    // make settings available immediately, via setState they are not available to chained promises immediatelly
+    this.state.settings = newSettings;
+    this.state.userSettings = newUserSettings;
+    this.state.oauthSettings = newOauthSettings;
+
+    const changes = { settings: newSettings, userSettings: newUserSettings, oauthSettings: newOauthSettings };
+    this.setState(changes);
+    return changes;
   };
 
   /**
@@ -91,7 +108,7 @@ export default class App extends React.Component
 
     const { dpapp } = this.props;
     return dpapp.state.setAppState('userSettings', newUserSettings)
-      .then(() => this.setSettingsState({ userSettings: newUserSettings }))
+      .then(() => this.setAllSettingsState({ userSettings: newUserSettings }))
       .then(() => newUserSettings)
       ;
   };
@@ -100,13 +117,13 @@ export default class App extends React.Component
    * @param {{}} changes
    * @return Promise.<Object>
    */
-  updateSettings = (changes) => {
+  updateAppSettings = (changes) => {
     const { settings } = this.state;
     const newSettings = { ...settings, ...changes };
 
     const { dpapp } = this.props;
     return dpapp.state.setAppState('settings', newSettings)
-      .then(() => this.setSettingsState({ settings: newSettings }))
+      .then(() => this.setAllSettingsState({ settings: newSettings }))
       .then(() => newSettings)
       ;
   };
@@ -122,9 +139,10 @@ export default class App extends React.Component
     // oauth
     const mailchimpAuth = MailchimpAuthcInfo.fromJS(userSettings.mailchimpAuth);
     if (mailchimpAuth.apiCredentials) { // try and load subscriber details
-      const client = this.createClient(mailchimpAuth);
-      return this.loadSubscriberDetails(client)
+      return this.createClient(mailchimpAuth)
+        .then(this.loadSubscriberDetails)
         .then((stateChanges) => ({...stateChanges, activeView: 'home'}))
+      ;
     }
 
     if (settings.mailchimpOauthConnectionStatus == 'unregistered') {
@@ -207,28 +225,31 @@ export default class App extends React.Component
       return this.updateUserSettings(changes).then(() => mailchimpAuthc);
     };
 
-    return dpapp.oauth.access('mailchimp').then(setMailchimpAuthState).then(this.loadData);
+    return dpapp.oauth.access('mailchimp')
+      .then(setMailchimpAuthState)
+      .then(this.loadData)
+      .then(this.setState.bind(this));
   };
 
   onRegisterMailchimpConnection = (connection) => {
     const { dpapp } = this.props;
-    const setState = this.setState.bind(this);
 
     dpapp.oauth.register('mailchimp', connection)
       .then((connection) => {
-        return this.updateSettings({ mailchimpOauthConnectionStatus: 'registered' });
+        return this.updateAppSettings({ mailchimpOauthConnectionStatus: 'registered' });
       })
-      .then(() => setState({ activeView: 'authenticate' }))
+      .then(() => ({ activeView: 'authenticate' }))
+      .then(this.setState.bind(this))
     ;
   };
 
   renderOauthConnectionView  = () =>
   {
-    const { oauth } = this.props.dpapp;
+    const { oauthSettings } = this.state;
     const model = {
       providerDisplayName: 'Mailchimp',
       providerName: 'mailchimp',
-      urlRedirect: oauth.redirectUrl('mailchimp'),
+      urlRedirect: oauthSettings.urlRedirect,
       urlAuthorize: 'https://login.mailchimp.com/oauth2/authorize',
       urlAccessToken: 'https://login.mailchimp.com/oauth2/token',
       urlResourceOwnerDetails: 'https://login.mailchimp.com/oauth2/metadata'
