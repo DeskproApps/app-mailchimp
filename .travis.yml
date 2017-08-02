@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-- '6'
+  - '6'
 install:
-- npm install
+  - npm install && npm install @deskproapps/dpat@0.4.12
 script:
-- npm run package
+  - npm run package
 deploy:
   provider: releases
   api_key:
