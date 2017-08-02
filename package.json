@@ -31,7 +31,6 @@
     "error-wrapper": "2.1.0"
   },
   "devDependencies": {
-    "@deskproapps/dpat": "0.4.9",
     "react-custom-scrollbars": "^4.1.1"
   },
   "deskpro": {
