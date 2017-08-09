@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - '6'
 install:
-  - npm install && npm install git+https://git@github.com/deskpro/deskproapps-dpat.git
+  - npm install && npm install @deskproapps/dpat@0.5.1
 script:
   - npm run package
 deploy:
