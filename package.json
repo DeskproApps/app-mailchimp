@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "dpat server .",
     "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,7 @@
   },
   "homepage": "https://github.com/DeskproApps/mailchimp#readme",
   "dependencies": {
-    "@deskproapps/deskproapps-sdk-react": "1.0.0-beta.4",
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-beta.5",
     "error-wrapper": "2.1.0"
   },
   "devDependencies": {
@@ -71,5 +72,10 @@
     "externalApis": [
       "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
     ]
+  },
+  "optionalDependencies": {
+    "@deskproapps/dpat": "0.5.2",
+    "changelog-verify": "^1.0.4",
+    "version-changelog": "^2.1.0"
   }
 }

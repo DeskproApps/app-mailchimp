@@ -44,6 +44,15 @@ export const fetchSubscriberInfo = (client, subscriber) =>
     .then(members => {
       //TODO error handling
 
+      if (!members.length) { // no mailchimp information
+
+        return Promise.all([
+          Promise.resolve([]),
+          Promise.resolve([]),
+          Promise.resolve(subscriber),
+        ]);
+      }
+
       const memberActivityListPromises = parseMemberActivityLinks(members)
         .map(url => client.fetch(url, { method: 'GET' }))
         .map(promiseReflect)

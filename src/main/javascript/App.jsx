@@ -162,7 +162,7 @@ export default class App extends React.Component
   createClient = (authcInfo) =>
   {
     const { fetchCORS: fetch } = this.props.dpapp.restApi;
-    return MailchimpFetchClient.fromAuthc(authcInfo, fetch);
+    return MailchimpFetchClient.fromAuthc(authcInfo, fetch.bind(this.props.dpapp.restApi));
   };
 
   /**
@@ -201,14 +201,10 @@ export default class App extends React.Component
    */
   onSubscriptionStatusChange = (previousList, currentList) =>
   {
-    const { mailchimpAuth, subscriberDetails } = this.state;
-    const authcInfo = new MailchimpAuthcInfo(mailchimpAuth);
-    const { apiKey: key } = authcInfo;
-
-    const { fetchCORS: fetch } = this.props.dpapp.restApi;
-    const client = new MailchimpFetchClient({ key, fetch });
-
-    return updateListSubscriptions(client, subscriberDetails, previousList, currentList);
+    const { userSettings, subscriberDetails } = this.state;
+    this.createClient(MailchimpAuthcInfo.fromJS(userSettings.mailchimpAuth))
+      .then(client => updateListSubscriptions(client, subscriberDetails, previousList, currentList))
+    ;
   };
 
   /**
