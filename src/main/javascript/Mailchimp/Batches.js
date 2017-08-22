@@ -118,7 +118,7 @@ export class Client
         .then(response => {
           return response;
         })
-        .catch(e => {console.log(e)})
+        //.catch(e => {console.log(e)})
       ;
     }
 

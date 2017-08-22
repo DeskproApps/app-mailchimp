@@ -1,46 +1,81 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.1",
-  "description": "A foundation to get you started developing React DeskPro Apps with the best developer experience ",
+  "version": "0.1.2-beta.7",
+  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
   "main": "lib/main/javascript/index.js",
   "scripts": {
     "dev": "dpat server .",
     "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeskproApps/app-mailchimp.git"
+    "url": "git+https://github.com/DeskproApps/mailchimp.git"
   },
   "keywords": [
     "deskpro",
     "react-boilerplate"
   ],
-  "author": "Deskpro",
+  "author": {
+    "name": "DeskPRO Ltd.",
+    "email": "apps@deskpro.com",
+    "url": "https://deskpro.com"
+  },
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/DeskproApps/app-mailchimp/issues"
+    "url": "https://github.com/DeskproApps/mailchimp/issues"
   },
-  "homepage": "https://github.com/DeskproApps/app-mailchimp#readme",
+  "homepage": "https://github.com/DeskproApps/mailchimp#readme",
   "dependencies": {
-    "@deskproapps/deskproapps-sdk-react": "1.0.0-alpha.11"
+    "@deskproapps/deskproapps-sdk-react": "1.0.0-beta.5",
+    "error-wrapper": "2.1.0"
   },
   "devDependencies": {
-    "@deskproapps/dpat": "0.4.6",
     "react-custom-scrollbars": "^4.1.1"
   },
-  "deskpro" : {
+  "deskpro": {
     "version": "2.1.0",
     "title": "Mailchimp",
     "isSingle": true,
     "scope": "agent",
     "targets": [
-      { "target": "ticket-sidebar", "url": "html/ticket-sidebar.html" }
+      {
+        "target": "ticket-sidebar",
+        "url": "html/index.html"
+      }
     ],
     "settings": [],
-    "deskproApiTags": ["tickets.*"],
+    "state": [
+      {
+        "name": "settings",
+        "isBackendOnly": false,
+        "permRead": "EVERYBODY",
+        "permWrite": "OWNER"
+      },
+      {
+        "name": "userSettings",
+        "isBackendOnly": false,
+        "permRead": "OWNER",
+        "permWrite": "OWNER"
+      },
+      {
+        "name": "oauth:mailchimp",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "OWNER"
+      }
+    ],
+    "deskproApiTags": [
+      "tickets.*"
+    ],
     "externalApis": [
       "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
     ]
+  },
+  "optionalDependencies": {
+    "@deskproapps/dpat": "0.5.2",
+    "changelog-verify": "^1.0.4",
+    "version-changelog": "^2.1.0"
   }
 }
