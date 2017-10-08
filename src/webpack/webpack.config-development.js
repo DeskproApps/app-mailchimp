@@ -64,8 +64,7 @@ module.exports = function (env)
             path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
             path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
             path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
-          ],
-          options: babelOptions
+          ]
         },
         {
           test: /\.css$/,
@@ -86,6 +85,10 @@ module.exports = function (env)
     },
     plugins: [
       extractCssPlugin,
+  
+      new dpat.Webpack.DefinePlugin({
+        DPAPP_MANIFEST: JSON.stringify(buildManifest.getContent())
+      }),
 
       new dpat.Webpack.optimize.CommonsChunkPlugin({name: ['vendor'], minChunks: Infinity}),
       new dpat.Webpack.NamedModulesPlugin(),

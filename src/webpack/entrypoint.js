@@ -1,5 +1,8 @@
 import { createApp } from '@deskproapps/deskproapps-sdk-core';
-require('../main/sass/index.scss');
-import { runApp } from '../main/javascript'
+import { runApp } from '../main/javascript';
+import '../main/sass/index.scss';
 
-createApp(runApp);
+createApp((dpapp) => {
+  dpapp.manifest = DPAPP_MANIFEST;
+  runApp(dpapp);
+});

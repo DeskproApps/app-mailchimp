@@ -39,8 +39,7 @@ module.exports = function (env) {
             path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
             path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
             path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
-          ],
-          options: babelOptions
+          ]
         },
         {
           test: /\.css$/,
@@ -62,7 +61,10 @@ module.exports = function (env) {
     plugins: [
       extractCssPlugin,
 
-      new dpat.Webpack.DefinePlugin({ DEBUG: DEBUG }),
+      new dpat.Webpack.DefinePlugin({
+        DEBUG: DEBUG,
+        DPAPP_MANIFEST: JSON.stringify(buildManifest.getContent())
+      }),
 
       // for stable builds, in production we replace the default module index with the module's content hashe
       new dpat.Webpack.HashedModuleIdsPlugin(),
