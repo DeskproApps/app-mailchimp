@@ -12,13 +12,13 @@ Adds a sidebar when opening a ticket that displays that ticket's owner Mailchimp
 
 ## Installation
     
-This project requires [Deskpro Apps Tool](https://github.com/deskpro/deskproapps-dpat) to be installed alongside the other dependencies. You can install [Deskpro Apps Tool](https://github.com/deskpro/deskproapps-dpat) either locally or globally. We recommend to install it globally so you have it always availabe
+This project requires [Deskpro Apps Tool](https://github.com/deskpro/apps-dpat) to be installed alongside the other dependencies. You can install [Deskpro Apps Tool](https://github.com/deskpro/apps-dpat) either locally or globally. We recommend to install it globally so you have it always availabe
     
-To install the dependencies and [Deskpro Apps Tool](https://github.com/deskpro/deskproapps-dpat) locally, run:
+To install the dependencies and [Deskpro Apps Tool](https://github.com/deskpro/apps-dpat) locally, run:
     
-    npm install && npm install @deskproapps/dpat   
+    npm install && npm install @deskpro/apps-dpat   
 
-If you already have [Deskpro Apps Tool](https://github.com/deskpro/deskproapps-dpat) installed, run:
+If you already have [Deskpro Apps Tool](https://github.com/deskpro/apps-dpat) installed, run:
  
     npm install
 

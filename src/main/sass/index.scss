@@ -1,5 +1,18 @@
-@import "./deskpro/colors";
-@import "./semantic-ui/globals/reset.overrides";
+$dp-styles-font-path: "~@deskpro/react-components/src/styles/fonts/";
+@import "~@deskpro/react-components/src/styles/main.scss";
 @import "./components/UserCard";
 @import "./components/SubscriptionList";
 @import "./components/CampaignActivityList";
+
+.dp-input {
+  width: 100%;
+  input {
+    width: 100%;
+  }
+}
+
+.dp-button {
+  width: 100%;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
+import { Container, Section, Heading } from '@deskpro/react-components';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Layout } from '@deskproapps/deskproapps-sdk-react';
 
 const renderScrollbarThumb = ({ style, ...props }) => {
   const thumbStyle = {
@@ -63,11 +63,14 @@ export class MemberActivityList extends React.Component
 
   renderEmptyState = () => {
     return (
-      <Layout.Section title="CAMPAIGNS">
-        <Layout.Block>
+      <Container>
+        <Heading size={3}>
+          Campaigns
+        </Heading>
+        <Section>
           No recorded campaign activity yet
-        </Layout.Block>
-      </Layout.Section>
+        </Section>
+      </Container>
     );
   };
 
@@ -76,29 +79,31 @@ export class MemberActivityList extends React.Component
     const { activityList } = this.props;
 
     return (
-      <Layout.Section title="CAMPAIGNS">
-        <Layout.Block>
+      <Container>
+        <Heading size={3}>
+          Campaigns
+        </Heading>
+        <Section>
           <div className="campaign-activity-list">
             <Scrollbars renderThumbVertical={renderScrollbarThumb} autoHeightMax={400} autoHeight={true} autoHideTimeout={500}>
               <div className="ui list">
                 { activityList.map(this.mapStatusToMarkup) }
               </div>
-
             </Scrollbars>
           </div>
-        </Layout.Block>
-      </Layout.Section>
+        </Section>
+      </Container>
     );
-
   };
 
   render() {
-    const { uiState } = this.state;
-
-    if (uiState === 'empty') { return this.renderEmptyState(); }
-    if (uiState === 'normal') { return this.renderNormalState(); }
-
-    return (<noscript/>);
+    switch (this.state.uiState) {
+      case 'empty':
+        return this.renderEmptyState();
+      case 'normal':
+        return this.renderNormalState();
+      default:
+        return <noscript />;
+    }
   }
-
 }

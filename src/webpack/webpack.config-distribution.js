@@ -1,24 +1,24 @@
 const path = require('path');
-const dpat = require('@deskproapps/dpat');
+const dpat = require('@deskpro/apps-dpat');
 
 module.exports = function (env) {
-
+  
   const PROJECT_ROOT_PATH = env && env.DP_PROJECT_ROOT ? env.DP_PROJECT_ROOT : path.resolve(__dirname, '../../');
   const DEBUG = env && env.NODE_ENV === 'development';
-
+  
   const buildManifest = new dpat.BuildManifest(
     PROJECT_ROOT_PATH,
     { distributionType: 'production', packagingType: 'cdn' }
   );
-
+  
   const resources = dpat.Resources.copyDescriptors(buildManifest, PROJECT_ROOT_PATH);
   const bundlePackages = dpat.BuildUtils.bundlePackages(PROJECT_ROOT_PATH, 'devDependencies');
   const babelOptions = dpat.Babel.resolveOptions(PROJECT_ROOT_PATH, { babelrc: false });
   // the relative path of the assets inside the distribution bundle
   const ASSET_PATH = 'assets';
-
+  
   const extractCssPlugin = new dpat.Webpack.ExtractTextPlugin({ filename: '[name].css', publicPath: `/${ASSET_PATH}/`, allChunks: true });
-
+  
   const configParts = [{}];
   configParts.push({
     devtool: DEBUG ? 'source-map' : false,
@@ -37,8 +37,8 @@ module.exports = function (env) {
           loader: 'babel-loader',
           include: [
             path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
-            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
-            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskpro', 'apps-sdk-core'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskpro', 'apps-sdk-react')
           ]
         },
         {
@@ -49,8 +49,13 @@ module.exports = function (env) {
           include: [ path.resolve(PROJECT_ROOT_PATH, 'src/main/sass') ],
           loader: extractCssPlugin.extract({ use: ['css-loader', 'sass-loader'] }),
           test: /\.scss$/
-        }
-      ],
+        },
+        { test: /\.(png|jpg)$/, use: 'url-loader?limit=15000' },
+        { test: /\.eot(\?v=\d+.\d+.\d+)?$/, use: 'file-loader' },
+        { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+        { test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
+        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' }
+      ]
     },
     output: {
       pathinfo: DEBUG,
@@ -60,19 +65,15 @@ module.exports = function (env) {
     },
     plugins: [
       extractCssPlugin,
-
+      
       new dpat.Webpack.DefinePlugin({
         DEBUG: DEBUG,
         DPAPP_MANIFEST: JSON.stringify(buildManifest.getContent())
       }),
-
+      
       // for stable builds, in production we replace the default module index with the module's content hashe
       new dpat.Webpack.HashedModuleIdsPlugin(),
-      new dpat.Webpack.optimize.UglifyJsPlugin({
-        sourceMap: DEBUG,
-        compress: { unused: true, dead_code: true, warnings: false }
-      }),
-
+      
       // replace a standard webpack chunk hashing with custom (md5) one
       new dpat.Webpack.WebpackChunkHash(),
       // vendor libs + extracted manifest
@@ -81,7 +82,7 @@ module.exports = function (env) {
       new dpat.Webpack.ChunkManifestPlugin({ filename: 'manifest.json', manifestVariable: 'webpackManifest' }),
       // mapping of all source file names to their corresponding output file
       new dpat.Webpack.ManifestPlugin({ fileName: 'asset-manifest.json' }),
-
+      
       new dpat.Webpack.CopyWebpackPlugin(resources, { debug: true, copyUnmodified: true }),
     ],
     resolve: {
@@ -94,6 +95,6 @@ module.exports = function (env) {
     node: { fs: 'empty' },
     bail: true
   });
-
+  
   return Object.assign.apply(Object, configParts)
 };

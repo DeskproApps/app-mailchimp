@@ -1,15 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+import PropTypes from 'prop-types';
+import { parseSubscriberDetails } from './Deskpro';
 import { HomeView, AuthenticationView, OauthConnectionView } from './Components'
 import { MemberActivity, SubscriberDetails } from './Domain'
-
-import { MailchimpFetchClient, MailchimpAuthcInfo, MailchimpAuthenticationError, fetchLists, fetchSubscriberInfo, updateListSubscriptions, determineMembershipDetails } from './Mailchimp';
-import { parseSubscriberDetails } from './Deskpro';
+import {
+  MailchimpFetchClient,
+  MailchimpAuthcInfo,
+  MailchimpAuthenticationError,
+  fetchLists,
+  fetchSubscriberInfo,
+  updateListSubscriptions,
+  determineMembershipDetails
+} from './Mailchimp';
 
 export default class App extends React.Component
 {
-  static propTypes = { dpapp: React.PropTypes.object.isRequired };
+  static propTypes = {
+    dpapp: PropTypes.object
+  };
 
   constructor(props)
   {
@@ -57,16 +65,19 @@ export default class App extends React.Component
 
   loadAllSettings = () =>
   {
-    const { state } = this.props.dpapp;
-    const { oauth } = this.props.dpapp;
+    const { storage, oauth } = this.props.dpapp;
 
     return Promise.all([
-      state.getAppState('settings'),
-      state.getAppState('userSettings'),
+      storage.getAppStorage('settings'),
+      storage.getAppStorage('userSettings'),
       oauth.settings('mailchimp')
     ])
     .then((results) => {
-      return { settings: results[0], userSettings: results[1], oauthSettings: results[2] }
+      return {
+        settings: results[0],
+        userSettings: results[1],
+        oauthSettings: results[2]
+      }
     });
   };
 
@@ -107,7 +118,7 @@ export default class App extends React.Component
     const newUserSettings = { ...userSettings, ...changes };
 
     const { dpapp } = this.props;
-    return dpapp.state.setAppState('userSettings', newUserSettings)
+    return dpapp.storage.setAppStorage('userSettings', newUserSettings)
       .then(() => this.setAllSettingsState({ userSettings: newUserSettings }))
       .then(() => newUserSettings)
       ;
@@ -122,7 +133,7 @@ export default class App extends React.Component
     const newSettings = { ...settings, ...changes };
 
     const { dpapp } = this.props;
-    return dpapp.state.setAppState('settings', newSettings)
+    return dpapp.storage.setAppStorage('settings', newSettings)
       .then(() => this.setAllSettingsState({ settings: newSettings }))
       .then(() => newSettings)
       ;
@@ -146,7 +157,7 @@ export default class App extends React.Component
     }
 
     if (settings.mailchimpOauthConnectionStatus == 'unregistered') {
-      return { activeView : 'registerAuthcConnection' };
+      return { activeView : 'registerAuthConnection' };
     }
 
     // missing auth tokens somehow
@@ -180,7 +191,12 @@ export default class App extends React.Component
           fetchLists(client), fetchSubscriberInfo(client, deskproSubscriberDetails)
         ])
         .then(results => { //normalize return results
-          return {lists: results [0], listActivity: results[1][0], listMemberships: results[1][1], subscriberDetails: results[1][2]}
+          return {
+            lists: results [0],
+            listActivity: results[1][0],
+            listMemberships: results[1][1],
+            subscriberDetails: results[1][2]
+          }
         })
       })
       .then(({ subscriberDetails, lists, listActivity, listMemberships }) => {
@@ -261,19 +277,28 @@ export default class App extends React.Component
   renderHomeView = () =>
   {
     const { subscriberDetails, subscriptionStatusList, memberActivityList } = this.state;
-    return (<HomeView  subscriberDetails={subscriberDetails} subscriptionStatusList={subscriptionStatusList} memberActivityList={memberActivityList} onSubscriptionStatusChange={this.onSubscriptionStatusChange}/>)
+    return (
+      <HomeView
+        subscriberDetails={subscriberDetails}
+        subscriptionStatusList={subscriptionStatusList}
+        memberActivityList={memberActivityList}
+        onSubscriptionStatusChange={this.onSubscriptionStatusChange} 
+      />
+    )
   };
 
   render()
   {
-    const { activeView } = this.state;
-
-    if (activeView === 'home') { return this.renderHomeView(); }
-
-    if (activeView === 'authenticate') { return this.renderAuthenticationView(); }
-
-    if (activeView === 'registerAuthcConnection') { return this.renderOauthConnectionView(); }
-
-    return (<noscript/>);
+    switch (this.state.activeView) {
+      case 'home':
+        // return this.renderHomeView();
+        return this.renderOauthConnectionView();
+      case 'authenticate':
+        return this.renderAuthenticationView();
+      case 'registerAuthConnection':
+        return this.renderOauthConnectionView();
+      default:
+        return <noscript />;
+    }
   }
 }

@@ -1,77 +1,7 @@
 import React from 'react';
-import {Form, Layout} from "@deskproapps/deskproapps-sdk-react";
-
-/**
- * @return {{providerName: {schema: {type: String, optional: boolean}, ui: {label: string}}, urlAuthorize: {schema: {type: String, optional: boolean}, ui: {label: string}}, urlAccessToken: {schema: {type: String, optional: boolean}, ui: {label: string}}, urlResourceOwnerDetails: {schema: {type: String, optional: boolean}, ui: {label: string}}, clientId: {schema: {type: String, optional: boolean}, ui: {label: string}}, clientSecret: {schema: {type: String, optional: boolean}, ui: {label: string}}}}
- */
-const getFieldsDefinition = () => {
-  return {
-    providerName: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Provider name'
-      }
-    },
-    urlRedirect: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Return URL'
-      }
-    },
-    urlAuthorize: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Authorize URL'
-      }
-    },
-    urlAccessToken: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Access Token URL'
-      }
-    },
-    urlResourceOwnerDetails: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Resource Owner Details URL'
-      }
-    },
-    clientId: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Client ID'
-      }
-    },
-    clientSecret: {
-      schema: {
-        type: String,
-        optional: false
-      },
-      ui: {
-        label: 'Client Secret'
-      }
-    }
-  };
-};
-
+import { Form, Input, Button, validators } from '@deskpro/react-components/lib/bindings/redux-form';
+import { Container, Section, Heading } from '@deskpro/react-components';
+import { Input as InputReadOnly } from '@deskpro/react-components';
 
 const updateProviderDetailsDOM = (providerDetailsDisplay, labelDOM, providerDetailsDOM) =>
 {
@@ -86,12 +16,9 @@ const updateProviderDetailsDOM = (providerDetailsDisplay, labelDOM, providerDeta
 };
 
 export const OauthConnectionView = ({ onAddConnection, model }) => {
-
-  const fields = getFieldsDefinition();
   const onSubmitHandler = (model) => {
     onAddConnection(model);
   };
-  const onCancelHandler = () => {};
 
   let providerDetailsDisplay = 'none';
   let providerDetailsDOM = null;
@@ -108,7 +35,10 @@ export const OauthConnectionView = ({ onAddConnection, model }) => {
   };
 
   return (
-    <Layout.Section title="CREATE OAUTH CONNECTION">
+    <Container>
+      <Heading size={3}>
+        Create OAuth Connection
+      </Heading>
       <p>
         This seems to be the first time you are running the application.
       </p>
@@ -116,42 +46,78 @@ export const OauthConnectionView = ({ onAddConnection, model }) => {
         Login into your {model.providerDisplayName} account and register a new oauth app
       </p>
 
-      <Form.Form
-        fields={fields}
-        model={ model }
-        submitLabel={"Create"}
-        onSubmit={onSubmitHandler}
-        onCancel={onCancelHandler}
-      >
-
-        <div className="field">
-          <label><span>Provider Name</span> <a href="#" style={{float: 'right', fontWeight: 800}} onClick={onToggleProviderDetails} className="text small">SHOW DETAILS</a> </label>
-          <input type="text" readonly="" name="providerDisplayName" placeholder="" value={ model.providerDisplayName } />
+      <Form name="auth" initialValues={model} onSubmit={onSubmitHandler}>
+        <div className="dp-form-group">
+          <label>
+            <span>Provider Name</span>
+            <a
+              href="#"
+              style={{float: 'right', fontWeight: 800}}
+              onClick={onToggleProviderDetails}
+              className="text small"
+            >
+              SHOW DETAILS
+            </a>
+          </label>
+          <InputReadOnly
+            type="text"
+            name="providerDisplayName"
+            value={ model.providerDisplayName }
+            readOnly
+          />
         </div>
-
         <div style={{display: providerDetailsDisplay}} ref={(dom) => {providerDetailsDOM = dom;}}>
-          <Layout.Block>
-            <Form.Fields fields={[
-              'urlAuthorize',
-              'urlAccessToken',
-              'urlResourceOwnerDetails'
-            ]} />
-          </Layout.Block>
+          <Section>
+            <Input
+              label="Authorize URL"
+              id="urlAuthorize"
+              name="urlAuthorize"
+              validate={validators.required}
+            />
+            <Input
+              label="Access Token URL"
+              id="urlAccessToken"
+              name="urlAccessToken"
+              validate={validators.required}
+            />
+            <Input
+              label="Resource Owner Details URL"
+              id="urlResourceOwnerDetails"
+              name="urlResourceOwnerDetails"
+              validate={validators.required}
+            />
+          </Section>
         </div>
-
-        <div className="field">
-          <label>Return URL <a href="#" style={{float: 'right', fontWeight: 800}} className="text small" onClick={copy}>COPY</a> </label>
-          <input type="text" readonly="" name="urlRedirect" placeholder="" value={ model.urlRedirect } ref={(dom) => {urlRedirectDOM = dom;}} />
+        <div className="dp-form-group">
+          <label>
+            Return URL
+            <a href="#" style={{float: 'right', fontWeight: 800}} className="text small" onClick={copy}>COPY</a>
+          </label>
+          <InputReadOnly
+            type="text"
+            name="urlRedirect"
+            value={ model.urlRedirect }
+            ref={(dom) => {urlRedirectDOM = dom;}}
+            readOnly
+          />
         </div>
-
-        <Form.Fields fields={[
-          'clientId',
-          'clientSecret'
-        ]} />
-
-      </Form.Form>
-
-    </Layout.Section>
+        <Input
+          label="Client ID"
+          id="clientId"
+          name="clientId"
+          validate={validators.required}
+        />
+        <Input
+          label="Client Secret"
+          id="clientSecret"
+          name="clientSecret"
+          validate={validators.required}
+        />
+        <Button>
+          Create
+        </Button>
+      </Form>
+    </Container>
   );
 };
 

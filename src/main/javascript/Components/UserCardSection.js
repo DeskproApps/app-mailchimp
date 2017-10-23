@@ -1,15 +1,18 @@
 import React from 'react';
-import { Layout } from '@deskproapps/deskproapps-sdk-react';
+import { Container, Section, Heading } from '@deskpro/react-components';
 
 
 const renderEmpty = () =>
 {
   return (
-    <Layout.Section title="USER & RATING">
-      <Layout.Block>
+    <Container>
+      <Heading size={3}>
+        User &amp; Rating
+      </Heading>
+      <Section>
         <div>No member information available yet</div>
-      </Layout.Block>
-    </Layout.Section>
+      </Section>
+    </Container>
   );
 };
 
@@ -20,8 +23,11 @@ const renderEmpty = () =>
 const renderNormal = ({ memberDetails }) =>
 {
   return (
-    <Layout.Section title="USER & RATING">
-      <Layout.Block>
+    <Container>
+      <Heading size={3}>
+        User &amp; Rating
+      </Heading>
+      <Section>
         <div style={{ float: 'left' }}> {memberDetails.fullName} </div>
         <div style={{ float: 'right' }}>
           <span className="star-rating">
@@ -33,8 +39,8 @@ const renderNormal = ({ memberDetails }) =>
           </span>
         </div>
         <div style={{ clear: 'all' }}>{memberDetails.email}</div>
-      </Layout.Block>
-    </Layout.Section>
+      </Section>
+    </Container>
   );
 };
 

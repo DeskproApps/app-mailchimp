@@ -1,5 +1,5 @@
 {
-  "name": "@deskproapps/app-mailchimp",
+  "name": "deskpro-app-mailchimp",
   "version": "0.1.2",
   "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
   "main": "lib/main/javascript/index.js",
@@ -28,15 +28,13 @@
   },
   "homepage": "https://github.com/DeskproApps/mailchimp#readme",
   "dependencies": {
-    "deskpro-sdk-react": "^0.0.1",
+    "@deskpro/react-components": "^1.1.0",
+    "@deskpro/apps-sdk-react": "^0.0.4",
     "error-wrapper": "2.1.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
-    "redux-form": "^7.1.0",
-    "redux-thunk": "^2.2.0"
+    "react-custom-scrollbars": "^4.1.1"
   },
   "devDependencies": {
-    "react-custom-scrollbars": "^4.1.1"
+    "@deskpro/apps-dpat": "0.5.2"
   },
   "deskpro": {
     "version": "2.1.0",
@@ -50,7 +48,7 @@
       }
     ],
     "settings": [],
-    "state": [
+    "storage": [
       {
         "name": "settings",
         "isBackendOnly": false,
@@ -78,7 +76,7 @@
     ]
   },
   "optionalDependencies": {
-    "@deskproapps/dpat": "0.5.2",
+    "@deskpro/apps-dpat": "0.5.2",
     "changelog-verify": "^1.0.4",
     "version-changelog": "^2.1.0"
   }
