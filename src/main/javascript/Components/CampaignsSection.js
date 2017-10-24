@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Section, Heading } from '@deskpro/react-components';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Container, Section, Heading, Scrollbar } from '@deskpro/react-components';
 
 const renderScrollbarThumb = ({ style, ...props }) => {
   const thumbStyle = {
@@ -85,11 +84,11 @@ export class MemberActivityList extends React.Component
         </Heading>
         <Section>
           <div className="campaign-activity-list">
-            <Scrollbars renderThumbVertical={renderScrollbarThumb} autoHeightMax={400} autoHeight={true} autoHideTimeout={500}>
+            <Scrollbar>
               <div className="ui list">
                 { activityList.map(this.mapStatusToMarkup) }
               </div>
-            </Scrollbars>
+            </Scrollbar>
           </div>
         </Section>
       </Container>
