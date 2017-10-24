@@ -1,8 +1,7 @@
 import React from 'react';
-import { Layout } from '@deskproapps/deskproapps-sdk-react';
+import { Container, Section, Heading } from '@deskpro/react-components';
 
 const visibilityStyleHidden = { display: 'none' };
-
 const visibilityStyleVisible = { display: 'block' };
 
 const indexOf = (search, list) => {
@@ -169,9 +168,12 @@ export class SubscriptionsList extends React.Component
   renderEmptyState = () =>
   {
     return (
-      <Layout.Section title="SUBSCRIPTIONS">
+      <Container>
+        <Heading size={3}>
+          Subscriptions
+        </Heading>
         You have no lists
-      </Layout.Section>
+      </Container>
     );
   };
 
@@ -179,34 +181,6 @@ export class SubscriptionsList extends React.Component
   {
     const { size } = this.props;
     const { showMoreSectionEnabled, showMoreText } = this.state;
-
-    // replacement for
-    // return (
-    //   <Layout.Section title="SUBSCRIPTIONS">
-    //     <Layout.Block>
-    //
-    //       <div>
-    //         { statusList.slice(0, size).map(this.mapStatusToMarkup) }
-    //       </div>
-    //
-    //       { showMoreSectionEnabled &&
-    //         <div ref="moreListRef" style={visibilityStyleHidden}>
-    //           { showMoreSectionEnabled && statusList.slice(size).map(this.mapStatusToMarkup) }
-    //         </div>
-    //       }
-    //
-    //     </Layout.Block>
-    //
-    //     { showMoreSectionEnabled &&
-    //       <Layout.Block>
-    //         <a href="#" onClick={this.toggleMoreSectionVisibility}>
-    //           <span className="text small" ref="showLabelRef">{showMoreText}</span>
-    //         </a>
-    //       </Layout.Block>
-    //     }
-    //
-    //   </Layout.Section>
-    // );
 
     return (
     <div className="ui vertical segment form" style={{ borderColor: 'white' }}>
@@ -216,7 +190,7 @@ export class SubscriptionsList extends React.Component
         </div>
       </div>
 
-      <Layout.Block>
+      <Section>
 
         <div>
           { this.statusList.slice(0, size).map(this.mapStatusToListItemMarkup) }
@@ -228,14 +202,14 @@ export class SubscriptionsList extends React.Component
         </div>
         }
 
-      </Layout.Block>
+      </Section>
 
       { showMoreSectionEnabled &&
-      <Layout.Block>
+      <Section>
         <a href="#" onClick={this.toggleMoreSectionVisibility}>
           <span className="text small" ref="showLabelRef">{showMoreText}</span>
         </a>
-      </Layout.Block>
+      </Section>
       }
 
     </div>
@@ -245,12 +219,14 @@ export class SubscriptionsList extends React.Component
 
   render()
   {
-    const { uiState } = this.state;
-
-    if (uiState === 'empty') { return this.renderEmptyState(); }
-    if (uiState === 'normal') { return this.renderNormalState(); }
-
-    return (<noscript/>);
+    switch (this.state.uiState) {
+      case 'empty':
+        return this.renderEmptyState();
+      case 'normal':
+        return this.renderNormalState();
+      default:
+        return <noscript/>;
+    }
   }
 
 }

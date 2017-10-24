@@ -1,20 +1,19 @@
 import React from 'react';
-import { Layout } from '@deskproapps/deskproapps-sdk-react';
+import { Container, Button } from '@deskpro/react-components';
 
 export const AuthenticationView = ({ onAuthenticate }) => {
 
-  const onAuthenticateListener = event => { onAuthenticate (); };
+  const onAuthenticateListener = event => { onAuthenticate(); };
 
   return (
-    <Layout.Section>
+    <Container>
       <p>
         This seems to be the first time you are running this application.
       </p>
-
-      <br/>
-
-      <Layout.Button primary onClick={onAuthenticateListener}>Authenticate</Layout.Button>
-    </Layout.Section>
+      <Button onClick={onAuthenticateListener}>
+        Authenticate
+      </Button>
+    </Container>
   );
 };
 

@@ -2,15 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 $open-sans: 'Open Sans', sans-serif;
 
-
-@import "../../deskpro/variables";
-$dp-greyscale-350: map_get($dp-colors, 'dp-greyscale-350');
-$dp-greyscale-450: map_get($dp-colors, 'dp-greyscale-450');
-$dp-greyscale-700: map_get($dp-colors, 'dp-greyscale-700');
-$dp-greyscale-850: map_get($dp-colors, 'dp-greyscale-850');
-$dp-greyscale-950: map_get($dp-colors, 'dp-greyscale-950');
-$dp-sonic-primary: map_get($dp-colors, 'dp-sonic-primary');
-
 /** normalize **/
 $viewport-width: 240px;
 

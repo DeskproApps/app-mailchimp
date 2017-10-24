@@ -1,7 +1,3 @@
-@import "../deskpro/variables";
-$dp-sonic-primary: map_get($dp-colors, 'dp-sonic-primary');
-$dp-greyscale-400: map_get($dp-colors, 'dp-greyscale-400');
-$dp-greyscale-950: map_get($dp-colors, 'dp-greyscale-950');
 
 @mixin border-via-box-shadow($color, $top: '', $right: '', $bottom: '', $left : '')
 {
