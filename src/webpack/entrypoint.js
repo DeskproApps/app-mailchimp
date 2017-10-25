@@ -7,7 +7,7 @@ import '../main/sass/index.scss';
  *
  * @param {*} dpapp
  */
-createApp((dpapp) => {
+createApp(function(dpapp) {
   // DPAPP_MANIFEST is exported by webpack.
   dpapp.manifest = DPAPP_MANIFEST;
   
