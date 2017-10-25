@@ -73,6 +73,10 @@ module.exports = function (env) {
       
       // for stable builds, in production we replace the default module index with the module's content hashe
       new dpat.Webpack.HashedModuleIdsPlugin(),
+      new dpat.Webpack.optimize.UglifyJsPlugin({
+        sourceMap: DEBUG,
+        compress: { unused: true, dead_code: true, warnings: false }
+      }),
       
       // replace a standard webpack chunk hashing with custom (md5) one
       new dpat.Webpack.WebpackChunkHash(),

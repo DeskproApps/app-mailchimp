@@ -32,7 +32,8 @@
     "@deskpro/apps-sdk-react": "^0.0.6",
     "@deskpro/react-components": "^1.1.0",
     "error-wrapper": "2.1.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "@deskpro/apps-dpat": "0.9.1"
