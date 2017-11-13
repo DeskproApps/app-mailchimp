@@ -4,6 +4,10 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Added
+
+ - default application installer is now bundled with the app
+
 ## [0.1.3][] - 2017-11-08
 
 ### Changed

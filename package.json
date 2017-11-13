@@ -5,7 +5,7 @@
   "main": "lib/main/javascript/index.js",
   "scripts": {
     "dev": "dpat server .",
-    "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
+    "package": "dpat clean . && dpat compile . && dpat bundle-installer . && dpat verify ./dist && dpat package .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
