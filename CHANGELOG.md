@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.1.4][] - 2017-11-13
+
 ### Added
 
  - default application installer is now bundled with the app
@@ -31,7 +33,8 @@ QA passed
 ### Fixed 
  - no hover effect on `engagement score` rating stars
 
-[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/DeskproApps/mailchimp/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/DeskproApps/mailchimp/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/DeskproApps/mailchimp/compare/v0.1.2-beta.7...v0.1.2
 [0.1.2-beta.7]: https://github.com/DeskproApps/mailchimp/tree/v0.1.2-beta.7
