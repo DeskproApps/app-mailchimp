@@ -4,6 +4,10 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Fixed
+
+ - wrong manifest version causes installation to fail
+
 ## [0.1.4][] - 2017-11-13
 
 ### Added
