@@ -41,7 +41,7 @@
     "redux-form": "7.1.2"
   },
   "deskpro": {
-    "version": "2.1.0",
+    "version": "2.3.0",
     "title": "Mailchimp",
     "isSingle": true,
     "scope": "agent",
