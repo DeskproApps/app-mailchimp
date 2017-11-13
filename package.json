@@ -1,11 +1,11 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
   "main": "lib/main/javascript/index.js",
   "scripts": {
     "dev": "dpat server .",
-    "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
+    "package": "dpat clean . && dpat compile . && dpat bundle-installer . && dpat verify ./dist && dpat package .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
