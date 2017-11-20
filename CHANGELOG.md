@@ -4,6 +4,11 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Changed
+
+- upgrade @deskpro/apps-dpat to version 0.9.4
+- upgrade @deskpro/react-components to version 1.2.3
+
 ## [0.1.5][] - 2017-11-13
 
 ### Fixed
