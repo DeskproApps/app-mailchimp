@@ -1,13 +1,13 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
     "@deskpro/apps-dpat": {
-      "version": "0.9.4",
-      "resolved": "https://registry.npmjs.org/@deskpro/apps-dpat/-/apps-dpat-0.9.4.tgz",
-      "integrity": "sha1-IK7hTQW3obyxXeL31NVrEutzHLc=",
+      "version": "0.9.6",
+      "resolved": "https://registry.npmjs.org/@deskpro/apps-dpat/-/apps-dpat-0.9.6.tgz",
+      "integrity": "sha1-jqvuW2cnSsKSGn9qsetc2rRfYlM=",
       "dev": true,
       "requires": {
         "archiver": "1.3.0",
