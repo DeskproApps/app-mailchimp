@@ -32,7 +32,7 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
-    "@deskpro/apps-dpat": "0.9.4",
+    "@deskpro/apps-dpat": "0.9.6",
     "@deskpro/apps-sdk-react": "0.1.2",
     "@deskpro/react-components": "1.2.3",
     "error-wrapper": "2.1.0",

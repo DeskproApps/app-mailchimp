@@ -4,6 +4,10 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Changed
+
+- upgrade @deskpro/apps-dpat to version 0.9.6
+
 ## [0.1.6][] - 2017-11-20
 
 ### Changed
