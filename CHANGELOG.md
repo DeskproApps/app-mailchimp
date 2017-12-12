@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.1.8][] - 2017-12-12
+
 ### Fixed
 
   - copy redirect url button broken
@@ -58,7 +60,8 @@ QA passed
 ### Fixed 
  - no hover effect on `engagement score` rating stars
 
-[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.7...HEAD
+[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.8...HEAD
+[0.1.8]: https://github.com/DeskproApps/mailchimp/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/DeskproApps/mailchimp/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/DeskproApps/mailchimp/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/DeskproApps/mailchimp/compare/v0.1.4...v0.1.5
