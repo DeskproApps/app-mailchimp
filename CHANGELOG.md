@@ -4,6 +4,11 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Fixed
+
+  - copy redirect url button broken
+  - home screen not shown after successful authentication
+
 ## [0.1.7][] - 2017-11-24
 
 ### Changed

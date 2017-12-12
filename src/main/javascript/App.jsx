@@ -54,6 +54,7 @@ export default class App extends React.Component
       .then(this.setAllSettingsState)
       .then(this.loadData)
       .catch((err) => {
+        console.log('puta', err);
         if (err instanceof MailchimpAuthenticationError) {
           return { activeView: 'authenticate' };
         }
@@ -152,7 +153,9 @@ export default class App extends React.Component
     if (mailchimpAuth.apiCredentials) { // try and load subscriber details
       return this.createClient(mailchimpAuth)
         .then(this.loadSubscriberDetails)
-        .then((stateChanges) => ({...stateChanges, activeView: 'home'}))
+        .then((stateChanges) => {
+          return {...stateChanges, activeView: 'home'}
+        })
       ;
     }
 
@@ -291,8 +294,7 @@ export default class App extends React.Component
   {
     switch (this.state.activeView) {
       case 'home':
-        // return this.renderHomeView();
-        return this.renderOauthConnectionView();
+        return this.renderHomeView();
       case 'authenticate':
         return this.renderAuthenticationView();
       case 'registerAuthConnection':

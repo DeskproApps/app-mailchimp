@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, validators } from '@deskpro/react-components/lib/bindings/redux-form';
-import { Container, Section, Heading } from '@deskpro/react-components';
-import { Input as InputReadOnly } from '@deskpro/react-components';
+import { Container, Section, Heading, Input as InputReadOnly } from '@deskpro/react-components';
 
 const updateProviderDetailsDOM = (providerDetailsDisplay, labelDOM, providerDetailsDOM) =>
 {
@@ -29,9 +28,9 @@ export const OauthConnectionView = ({ onAddConnection, model }) => {
   };
 
   const copy = (e) => {
-    urlRedirectDOM.select();
+    urlRedirectDOM.input.select();
     document.execCommand("copy");
-    urlRedirectDOM.blur();
+    urlRedirectDOM.input.blur();
   };
 
   return (
