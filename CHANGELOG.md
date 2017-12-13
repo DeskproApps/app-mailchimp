@@ -4,6 +4,11 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+### Fixed
+
+  - remove obsolete semantic stylesheet import
+  - remove hardcoded container widths
+
 ## [0.1.8][] - 2017-12-12
 
 ### Fixed
