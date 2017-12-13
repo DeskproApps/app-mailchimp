@@ -1,8 +1,5 @@
 import React from 'react';
-import { Container, Section, Heading } from '@deskpro/react-components';
-
-const visibilityStyleHidden = { display: 'none' };
-const visibilityStyleVisible = { display: 'block' };
+import { Container, Section, Heading, List, HiddenFields } from '@deskpro/react-components';
 
 const indexOf = (search, list) => {
   let index = -1;
@@ -124,32 +121,6 @@ export class SubscriptionsList extends React.Component
     }
   };
 
-  toggleMoreSectionVisibility = () =>
-  {
-    const {moreListRef, showLabelRef} = this.refs;
-    const {showMoreText, showLessText} = this.state;
-
-    let moreListRefStyle;
-    let showLabelText;
-
-    if (moreListRef.style.display == 'none') {
-      moreListRefStyle = visibilityStyleVisible;
-      showLabelText = showLessText;
-    } else if (moreListRef.style.display == 'block') {
-      moreListRefStyle = visibilityStyleHidden;
-      showLabelText = showMoreText;
-    }
-
-    if (moreListRefStyle) {
-      Object.keys(moreListRefStyle).forEach(property => moreListRef.style[property] = moreListRefStyle[property]);
-    }
-
-    if (showLabelText) {
-      showLabelRef.innerHTML = showLabelText
-    }
-
-  };
-
   /**
    * @param {MembershipDetails} status
    */
@@ -179,42 +150,42 @@ export class SubscriptionsList extends React.Component
 
   renderNormalState = () =>
   {
+
     const { size } = this.props;
-    const { showMoreSectionEnabled, showMoreText } = this.state;
+
+    const listTailSize = this.statusList.length - size;
+    const showMoreSectionEnabled = listTailSize > 0;
+    const showMoreText = listTailSize > 0 ? `SHOW ${listTailSize} MORE` : '';
+    const showLessText = listTailSize > 0 ? `SHOW LESS` : '';
 
     return (
-    <div className="ui vertical segment form" style={{ borderColor: 'white' }}>
-      <div className="ui dividing header">
-        <div className="content" style={{width: '100%'}}>
-          <span style={{float: 'left'}}>SUBSCRIPTIONS</span>  <a href="#" style={{float: 'right'}} onClick={this.onUnsubcribeAll}><span className="text small" >Unsubscribe all</span> </a>
-        </div>
-      </div>
+      <Container>
 
-      <Section>
+        <Heading size={3}>
+          <span style={{float: 'left'}}>SUBSCRIPTIONS</span>  <a href="#" style={{float: 'right'}} onClick={this.onUnsubcribeAll}><span style={{ fontSize: '10px' }} >Unsubscribe all</span> </a>
+        </Heading>
 
-        <div>
-          { this.statusList.slice(0, size).map(this.mapStatusToListItemMarkup) }
-        </div>
+        <Section>
 
-        { showMoreSectionEnabled &&
-        <div ref="moreListRef" style={visibilityStyleHidden}>
-          { showMoreSectionEnabled && this.statusList.slice(size).map(this.mapStatusToListItemMarkup) }
-        </div>
-        }
+          <List style={{ paddingLeft: 0 }}>
+            { this.statusList.slice(0, size).map(this.mapStatusToListItemMarkup) }
+          </List>
 
-      </Section>
 
-      { showMoreSectionEnabled &&
-      <Section>
-        <a href="#" onClick={this.toggleMoreSectionVisibility}>
-          <span className="text small" ref="showLabelRef">{showMoreText}</span>
-        </a>
-      </Section>
-      }
+          { showMoreSectionEnabled &&
+            <HiddenFields opened={false} labelShow={showMoreText} labelHide={showLessText}>
+              <List style={{ paddingLeft: 0 }}>
+                { this.statusList.slice(size).map(this.mapStatusToListItemMarkup) }
+              </List>
+            </HiddenFields>
+          }
 
-    </div>
+        </Section>
+
+
+
+      </Container>
     )
-
   };
 
   render()
