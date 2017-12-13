@@ -65,7 +65,7 @@ export class SubscriptionsList extends React.Component
       state = { ...state, uiState};
     }
 
-    if (nextProps.statusList.length !== this.statusList.length) {
+    if (nextProps.statusList.length !== this.props.statusList.length) {
       state = { ...state, internalStatusList: [].concat(nextProps.statusList)};
     }
 
