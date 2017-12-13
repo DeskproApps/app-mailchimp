@@ -160,9 +160,8 @@ export class SubscriptionsList extends React.Component
 
     return (
       <Container>
-
         <Heading size={3}>
-          <span style={{float: 'left'}}>SUBSCRIPTIONS</span>  <a href="#" style={{float: 'right'}} onClick={this.onUnsubcribeAll}><span style={{ fontSize: '10px' }} >Unsubscribe all</span> </a>
+          <span style={{float: 'left'}}>SUBSCRIPTIONS</span>  <a href="#" style={{float: 'right', fontSize: '9px'}} onClick={this.onUnsubcribeAll}><span>Unsubscribe all</span> </a>
         </Heading>
 
         <Section>
