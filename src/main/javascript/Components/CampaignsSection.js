@@ -66,9 +66,9 @@ export class MemberActivityList extends React.Component
         <Heading size={3}>
           Campaigns
         </Heading>
-        <Section>
+        <p>
           No recorded campaign activity yet
-        </Section>
+        </p>
       </Container>
     );
   };
@@ -82,15 +82,13 @@ export class MemberActivityList extends React.Component
         <Heading size={3}>
           Campaigns
         </Heading>
-        <Section>
-          <div className="campaign-activity-list">
-            <Scrollbar>
-              <div className="ui list">
-                { activityList.map(this.mapStatusToMarkup) }
-              </div>
-            </Scrollbar>
-          </div>
-        </Section>
+        <div className="campaign-activity-list">
+          <Scrollbar>
+            <div className="ui list">
+              { activityList.map(this.mapStatusToMarkup) }
+            </div>
+          </Scrollbar>
+        </div>
       </Container>
     );
   };

@@ -27,19 +27,19 @@ const renderNormal = ({ memberDetails }) =>
       <Heading size={3}>
         User &amp; Rating
       </Heading>
-      <Section>
-        <div style={{ float: 'left' }}> {memberDetails.fullName} </div>
-        <div style={{ float: 'right' }}>
-          <span className="star-rating">
-            <input type="radio" name="rating" value="1" checked={1 === memberDetails.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="2" checked={2 === memberDetails.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="3" checked={3 === memberDetails.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="4" checked={ 4 === memberDetails.rating } readOnly={true} /><i/>
-            <input type="radio" name="rating" value="5" checked={ 5 === memberDetails.rating } readOnly={true} /><i/>
-          </span>
-        </div>
-        <div style={{ clear: 'all' }}>{memberDetails.email}</div>
-      </Section>
+
+      <div style={{ float: 'left' }}> {memberDetails.fullName} </div>
+      <div style={{ float: 'right' }}>
+        <span className="star-rating">
+          <input type="radio" name="rating" value="1" checked={1 === memberDetails.rating } readOnly={true} /><i/>
+          <input type="radio" name="rating" value="2" checked={2 === memberDetails.rating } readOnly={true} /><i/>
+          <input type="radio" name="rating" value="3" checked={3 === memberDetails.rating } readOnly={true} /><i/>
+          <input type="radio" name="rating" value="4" checked={ 4 === memberDetails.rating } readOnly={true} /><i/>
+          <input type="radio" name="rating" value="5" checked={ 5 === memberDetails.rating } readOnly={true} /><i/>
+        </span>
+      </div>
+      <div style={{ clear: 'all' }}>{memberDetails.email}</div>
+
     </Container>
   );
 };
