@@ -164,24 +164,17 @@ export class SubscriptionsList extends React.Component
           <span style={{float: 'left'}}>SUBSCRIPTIONS</span>  <a href="#" style={{float: 'right', fontSize: '9px'}} onClick={this.onUnsubcribeAll}><span>Unsubscribe all</span> </a>
         </Heading>
 
-        <Section>
+        <List style={{ paddingLeft: 0 }}>
+          { this.statusList.slice(0, size).map(this.mapStatusToListItemMarkup) }
+        </List>
 
-          <List style={{ paddingLeft: 0 }}>
-            { this.statusList.slice(0, size).map(this.mapStatusToListItemMarkup) }
-          </List>
-
-
-          { showMoreSectionEnabled &&
-            <HiddenFields opened={false} labelShow={showMoreText} labelHide={showLessText}>
-              <List style={{ paddingLeft: 0 }}>
-                { this.statusList.slice(size).map(this.mapStatusToListItemMarkup) }
-              </List>
-            </HiddenFields>
-          }
-
-        </Section>
-
-
+        { showMoreSectionEnabled &&
+          <HiddenFields opened={false} labelShow={showMoreText} labelHide={showLessText}>
+            <List style={{ paddingLeft: 0 }}>
+              { this.statusList.slice(size).map(this.mapStatusToListItemMarkup) }
+            </List>
+          </HiddenFields>
+        }
 
       </Container>
     )
