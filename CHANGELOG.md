@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+ - uses @deskpro/apps-sdk-react v0.2.12
+
 ## [0.1.11][] - 2018-02-09
 
  - default `process.env.NODE_ENV` to `production` when packaging the app for distribution with webpack  
