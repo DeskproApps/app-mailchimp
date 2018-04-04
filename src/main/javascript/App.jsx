@@ -186,7 +186,7 @@ export default class App extends React.Component
   loadSubscriberDetails = (client) =>
   {
     const { context } = this.props.dpapp;
-    return context.getTabData()
+    return context.hostUI.getTabData()
       .then(tabData => tabData.api_data.person)
       .then(parseSubscriberDetails)
       .then(deskproSubscriberDetails => {

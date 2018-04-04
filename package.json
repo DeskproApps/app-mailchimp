@@ -1,9 +1,10 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
   "main": "lib/main/javascript/index.js",
   "scripts": {
+    "dpat": "dpat",
     "dev": "dpat server .",
     "package": "dpat clean . && dpat compile . && dpat bundle-installer . && dpat verify ./dist && dpat package .",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,8 +33,8 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
-    "@deskpro/apps-dpat": "0.9.6",
-    "@deskpro/apps-sdk-react": "0.2.12",
+    "@deskpro/apps-dpat": "0.10.4",
+    "@deskpro/apps-sdk-react": "0.2.13",
     "@deskpro/react-components": "1.2.3",
     "error-wrapper": "2.1.0",
     "react-redux": "5.0.6",
