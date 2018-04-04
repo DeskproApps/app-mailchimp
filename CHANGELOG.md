@@ -13,7 +13,7 @@ This project is following [Semantic Versioning](http://semver.org)
 ### Changed
 
     - upgrade to @deskpro/apps-sdk-react version 0.2.13
-    - upgrade to @deskpro/apps-dpat version 0.10.3
+    - upgrade to @deskpro/apps-dpat version 0.10.4
 
 ## [0.1.11][] - 2018-02-09
 
