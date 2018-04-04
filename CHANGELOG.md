@@ -10,6 +10,10 @@ This project is following [Semantic Versioning](http://semver.org)
 
     - travis will atttach builds to Github PR's when enabled via s3 environment variables
 
+### Fixed
+
+    - authentication failure to detect valid access token
+
 ### Changed
 
     - upgrade to @deskpro/apps-sdk-react version 0.2.13

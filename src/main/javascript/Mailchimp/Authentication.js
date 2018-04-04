@@ -67,13 +67,18 @@ export class MailchimpAuthcInfo
   get apiCredentials() {
 
     const { apiKey, oauth2Token } = this.props;
-    let accessType;
+    let accessType, accessToken;
 
     if (apiKey) {
       accessType = ApiCredentials.ACCESS_APIKEY;
+      accessToken = apiKey;
     } else if (oauth2Token) {
-      if (oauth2Token.accessToken) {
+      if (oauth2Token.access_token) {
         accessType = ApiCredentials.ACCESS_OAUTH;
+        accessToken = oauth2Token.access_token;
+      } else if (oauth2Token.accessToken) { // for backwards compatibility
+        accessType = ApiCredentials.ACCESS_OAUTH;
+        accessToken = oauth2Token.accessToken;
       }
     }
 
@@ -81,7 +86,6 @@ export class MailchimpAuthcInfo
       return null;
     }
 
-    const accessToken = accessType === ApiCredentials.ACCESS_APIKEY ? apiKey : oauth2Token.accessToken;
     const props = { accessType, accessToken };
     return new ApiCredentials(props);
   }
