@@ -3,10 +3,10 @@
   "version": "0.1.13",
   "private": true,
   "dependencies": {
-    "@deskpro/apps-components": "^0.7.1",
-    "@deskpro/apps-installer": "0.4.5",
-    "@deskpro/apps-react-scripts": "0.2.8",
-    "@deskpro/apps-sdk": "^0.7.1",
+    "@deskpro/apps-components": "0.8.0",
+    "@deskpro/apps-installer": "1.0.5",
+    "@deskpro/apps-react-scripts": "0.3.5",
+    "@deskpro/apps-sdk": "0.8.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
