@@ -4,6 +4,12 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.1.13][] - 2018-08-20
+
+ - use the new apps structure
+ - use @deskpro/apps-sdk@0.5.0
+ - use @deskpro/apps-components@0.5.0
+
 ## [0.1.12][] - 2018-03-29
 
 ### Added
@@ -92,7 +98,8 @@ QA passed
 ### Fixed 
  - no hover effect on `engagement score` rating stars
 
-[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.12...HEAD
+[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.13...HEAD
+[0.1.13]: https://github.com/DeskproApps/mailchimp/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/DeskproApps/mailchimp/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/DeskproApps/mailchimp/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/DeskproApps/mailchimp/compare/v0.1.9...v0.1.10
