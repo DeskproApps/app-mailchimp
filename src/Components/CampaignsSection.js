@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ActionBar, List, ListItem, Level, Panel, DataTable } from '@deskpro/apps-components';
+import { ActionBar, ListItem, Level, Panel, DataTable } from '@deskpro/apps-components';
 
 export class MemberActivityList extends React.Component
 {
@@ -13,18 +13,11 @@ export class MemberActivityList extends React.Component
   constructor(props)
   {
     super(props);
-    this.initState();
-  }
-
-  initState = () =>
-  {
-    const { activityList } = this.props;
 
     this.state = {
-      uiState: activityList.length === 0 ? 'empty' : 'normal'
+      uiState: props.activityList.length === 0 ? 'empty' : 'normal'
     };
-
-  };
+  }
 
   componentWillReceiveProps(nextProps)
   {
@@ -35,18 +28,28 @@ export class MemberActivityList extends React.Component
     }
   }
 
+  getActivityStatus = activity =>
+  {
+    switch (activity.status) {
+      case 'bounce':
+        return `${activity.bounceType} ${activity.status}`;
+      default:
+        return activity.status;
+    }
+  };
+
   /**
-   * @param {MemberActivity} status
+   * @param {MemberActivity} activity
    */
-  mapStatusToMarkup = status =>
+  mapActivityToMarkup = activity =>
   {
     return (
       <ListItem>
-        <ActionBar  title={status.campaignTitle} />
+        <ActionBar  title={activity.campaignTitle} />
 
         <Level>
           <Level align={"left"}>
-            <span>{status.date}</span><span> | </span><span>{status.status}</span>
+            <span><span>{activity.date}</span> | <span>{this.getActivityStatus(activity)}</span></span>
           </Level>
         </Level>
       </ListItem>
@@ -63,14 +66,9 @@ export class MemberActivityList extends React.Component
 
     const { activityList } = this.props;
 
-    const columns =  [
-      status => status.date,
-      status => status.status,
-    ];
-
     return (
       <Panel title={"Campaigns"}>
-        <DataTable columns={columns} data={activityList} />
+        {activityList.map(status => this.mapActivityToMarkup(status))}
       </Panel>
     );
   };
