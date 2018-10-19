@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ActionBar, Action, List, ListItem, Level, Button, DataTable, Panel} from '@deskpro/apps-components';
-import {SubscriptionsMenu} from './SubscriptionsMenu';
+import { Action, Button, DataTable, Panel} from '@deskpro/apps-components';
 
 const indexOf = (search, list) => {
   let index = -1;

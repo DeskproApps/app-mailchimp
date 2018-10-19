@@ -49,6 +49,15 @@ export const parseMemberActivityLinks = mailchimpAPIList =>
   return mailchimpAPIList.map(mapper).filter(href => typeof href === 'string');
 };
 
+const reduceActivityList = activityList =>
+{
+  return activityList.filter(activity => {
+    return !activityList.find(a => {
+      return a.campaignId === activity.campaignId && a.timestamp > activity.timestamp
+    })
+  })
+};
+
 /**
  * @param {Array<{}>} mailchimpAPIList
  * @return {Array<MemberActivity>}
@@ -57,7 +66,7 @@ export const parseMemberActivityList = mailchimpAPIList =>
 {
   const mapper = activity => {
 
-    const { action: status, timestamp, title: campaignTitle, campaign_id: campaignId } = activity;
+    const { action: status, timestamp, title: campaignTitle, campaign_id: campaignId, type: bounceType } = activity;
 
     const date = new Date(timestamp);
     const formattedDate = [
@@ -66,10 +75,10 @@ export const parseMemberActivityList = mailchimpAPIList =>
       , date.getFullYear()
     ].join('/');
 
-    return new MemberActivity({ campaignTitle, status, date: formattedDate, campaignId });
+    return new MemberActivity({ campaignTitle, status, date: formattedDate, campaignId, bounceType });
   };
 
-  return mailchimpAPIList.map(mapper);
+  return reduceActivityList(mailchimpAPIList).map(mapper);
 };
 
 /**

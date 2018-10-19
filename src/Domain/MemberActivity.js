@@ -6,10 +6,11 @@ export class MemberActivity
    * @param {String} status
    * @param {String} date
    * @param {String} campaignId
+   * @param {String} bounceType
    */
-  constructor({ campaignTitle, status, date, campaignId })
+  constructor({ campaignTitle, status, date, campaignId, bounceType })
   {
-    this.props = { campaignTitle, status, date, campaignId };
+    this.props = { campaignTitle, status, date, campaignId, bounceType };
   }
 
   /**
@@ -26,6 +27,11 @@ export class MemberActivity
    * @return {String}
    */
   get status() { return this.props.status; }
+
+  /**
+   * @return {String}
+   */
+  get bounceType() { return this.props.bounceType; }
 
   /**
    * @return {String}

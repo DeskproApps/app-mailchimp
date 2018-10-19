@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ActionBar, Level, List, ListItem, Panel } from '@deskpro/apps-components';
+import { ActionBar, Level, ListItem, Panel } from '@deskpro/apps-components';
 
 const renderEmpty = () =>
 {
