@@ -1,45 +1,43 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.12",
-  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
-  "main": "lib/main/javascript/index.js",
+  "version": "0.2.0",
+  "private": true,
+  "dependencies": {
+    "@deskpro/apps-components": "0.8.0",
+    "@deskpro/apps-installer": "1.0.5",
+    "@deskpro/apps-react-scripts": "0.3.5",
+    "@deskpro/apps-sdk": "0.8.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "devDependencies": {
+    "changelog-verify": "^1.1.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "error-wrapper": "^2.1.0",
+    "react-redux": "^5.0.7",
+    "react-test-renderer": "^16.4.2",
+    "redux": "^4.0.0",
+    "redux-form": "^7.4.2",
+    "version-changelog": "^3.1.0"
+  },
+  "homepage": ".",
   "scripts": {
-    "dpat": "dpat",
-    "dev": "dpat server .",
-    "package": "dpat clean . && dpat compile . && dpat bundle-installer . && dpat verify ./dist && dpat package .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "PORT=31080 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "react-scripts eslint src test",
+    "format": "react-scripts prettier --write \"{src,test}/**/*.js\"",
+    "format:check": "react-scripts prettier --list-different \"{src,test}/**/*.js\"",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DeskproApps/mailchimp.git"
-  },
-  "keywords": [
-    "deskpro",
-    "react-boilerplate"
-  ],
+  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaign and subscription information of a ticket's owner",
   "author": {
     "name": "Deskpro Ltd.",
     "email": "apps@deskpro.com",
     "url": "https://deskpro.com"
-  },
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/DeskproApps/mailchimp/issues"
-  },
-  "homepage": "https://github.com/DeskproApps/mailchimp#readme",
-  "dependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
-  },
-  "devDependencies": {
-    "@deskpro/apps-dpat": "0.10.4",
-    "@deskpro/apps-sdk-react": "0.2.13",
-    "@deskpro/react-components": "1.2.3",
-    "error-wrapper": "2.1.0",
-    "react-redux": "5.0.6",
-    "redux": "3.7.2",
-    "redux-form": "7.1.2"
   },
   "deskpro": {
     "version": "2.3.0",
@@ -49,10 +47,13 @@
     "targets": [
       {
         "target": "ticket-sidebar",
-        "url": "html/index.html"
+        "url": "index.html"
+      },
+      {
+        "target": "install",
+        "url": "install.html"
       }
     ],
-    "settings": [],
     "storage": [
       {
         "name": "settings",
@@ -71,17 +72,64 @@
         "isBackendOnly": true,
         "permRead": "EVERYBODY",
         "permWrite": "OWNER"
+      },
+      {
+        "name": "oauth:mailchimp:access_token",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "EVERYBODY"
+      },
+      {
+        "name": "oauth:mailchimp:tokens",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "EVERYBODY"
       }
     ],
-    "deskproApiTags": [
-      "tickets.*"
+    "settings": [
+      {
+        "name": "clientId",
+        "defaultValue": "",
+        "title": "The client id",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "name": "clientSecret",
+        "defaultValue": "",
+        "title": "The client secret",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "name": "urlRedirect",
+        "defaultValue": "",
+        "title": "The Youtrack redirect URL",
+        "required": true,
+        "type": "text"
+      }
     ],
+    "deskproApiTags": [],
     "externalApis": [
       "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
     ]
   },
-  "optionalDependencies": {
-    "changelog-verify": "^1.0.4",
-    "version-changelog": "^2.1.0"
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "jsx-a11y/href-no-hash": "off"
+    },
+    "overrides": [
+      {
+        "files": "test/**/*.js",
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true
   }
 }
