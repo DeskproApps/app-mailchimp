@@ -1,6 +1,6 @@
 {
   "name": "@deskproapps/app-mailchimp",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@deskpro/apps-components": "0.8.0",
@@ -33,7 +33,7 @@
     "format:check": "react-scripts prettier --list-different \"{src,test}/**/*.js\"",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
-  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaing and subscription information of a ticket's owner",
+  "description": "This application adds a sidebar that lets you see Mailchimp's rating, campaign and subscription information of a ticket's owner",
   "author": {
     "name": "Deskpro Ltd.",
     "email": "apps@deskpro.com",
@@ -72,9 +72,43 @@
         "isBackendOnly": true,
         "permRead": "EVERYBODY",
         "permWrite": "OWNER"
+      },
+      {
+        "name": "oauth:mailchimp:access_token",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "EVERYBODY"
+      },
+      {
+        "name": "oauth:mailchimp:tokens",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "EVERYBODY"
       }
     ],
-    "settings": [],
+    "settings": [
+      {
+        "name": "clientId",
+        "defaultValue": "",
+        "title": "The client id",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "name": "clientSecret",
+        "defaultValue": "",
+        "title": "The client secret",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "name": "urlRedirect",
+        "defaultValue": "",
+        "title": "The Youtrack redirect URL",
+        "required": true,
+        "type": "text"
+      }
+    ],
     "deskproApiTags": [],
     "externalApis": [
       "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { parseSubscriberDetails } from './Deskpro';
-import { HomeView, AuthenticationView, OauthConnectionView } from './Components'
+import { HomeView, AuthenticationView } from './Components'
 import {
   MailchimpFetchClient,
   MailchimpAuthcInfo,
@@ -11,6 +11,7 @@ import {
   updateListSubscriptions,
   determineMembershipDetails
 } from './Mailchimp';
+
 import './styles.css';
 
 export default class App extends React.Component
@@ -34,7 +35,7 @@ export default class App extends React.Component
       },
       settings: {
         mailchimpAuthType: 'oauth', // 'api-key', 'oauth'
-        mailchimpOauthConnectionStatus: 'unregistered',
+        mailchimpOauthConnectionStatus: 'registered',
       },
       oauthSettings: {
         urlRedirect: ''
@@ -53,11 +54,12 @@ export default class App extends React.Component
     this.loadAllSettings()
       .then(this.setAllSettingsState)
       .then(this.loadData)
-      .catch((err) => {
+      .catch(err => {
         if (err instanceof MailchimpAuthenticationError) {
           return { activeView: 'authenticate' };
         }
-        console.error(err);
+        this.props.dpapp.ui.showErrorNotification(err, 'An error occurred');
+        console.log(err);
         return {};
       })
       .then(this.setState.bind(this))
@@ -66,18 +68,16 @@ export default class App extends React.Component
 
   loadAllSettings = () =>
   {
-    const { storage, oauth } = this.props.dpapp;
+    const { storage} = this.props.dpapp;
 
     return Promise.all([
       storage.getAppStorage('settings'),
-      storage.getAppStorage('userSettings'),
-      oauth.settings('mailchimp')
+      storage.getAppStorage('userSettings')
     ])
     .then((results) => {
       return {
         settings: results[0],
-        userSettings: results[1],
-        oauthSettings: results[2]
+        userSettings: results[1]
       }
     });
   };
@@ -93,56 +93,22 @@ export default class App extends React.Component
     const {
       settings: defaultSettings,
       userSettings: defaultUserSettings,
-      oauthSettings: defaultOauthSettings,
     } = this.state;
 
     const newSettings = settings ? settings : defaultSettings;
     const newUserSettings = userSettings ? userSettings : defaultUserSettings;
-    const newOauthSettings = oauthSettings ? oauthSettings : defaultOauthSettings;
 
-    // make settings available immediately, via setState they are not available to chained promises immediatelly
-    this.state.settings = newSettings;
-    this.state.userSettings = newUserSettings;
-    this.state.oauthSettings = newOauthSettings;
-
-    const changes = { settings: newSettings, userSettings: newUserSettings, oauthSettings: newOauthSettings };
+    const changes = { settings: newSettings, userSettings: newUserSettings };
     this.setState(changes);
     return changes;
   };
 
-  /**
-   * @param {{}} changes
-   * @return Promise.<Object>
-   */
-  updateUserSettings = (changes) => {
-    const { userSettings } = this.state;
-    const newUserSettings = { ...userSettings, ...changes };
 
-    const { dpapp } = this.props;
-    return dpapp.storage.setAppStorage('userSettings', newUserSettings)
-      .then(() => this.setAllSettingsState({ userSettings: newUserSettings }))
-      .then(() => newUserSettings)
-      ;
-  };
-
-  /**
-   * @param {{}} changes
-   * @return Promise.<Object>
-   */
-  updateAppSettings = (changes) => {
-    const { settings } = this.state;
-    const newSettings = { ...settings, ...changes };
-
-    const { dpapp } = this.props;
-    return dpapp.storage.setAppStorage('settings', newSettings)
-      .then(() => this.setAllSettingsState({ settings: newSettings }))
-      .then(() => newSettings)
-      ;
-  };
-
-  loadData = () =>
+  loadData = ({ settings, userSettings }) =>
   {
-    const { settings, userSettings } = this.state;
+    if (settings.mailchimpOauthConnectionStatus !== 'registered') {
+      return { activeView : 'authenticate' };
+    }
 
     if (settings.mailchimpAuthType === 'api-key') {
       return {};
@@ -157,10 +123,6 @@ export default class App extends React.Component
           return {...stateChanges, activeView: 'home'}
         })
       ;
-    }
-
-    if (settings.mailchimpOauthConnectionStatus === 'unregistered') {
-      return { activeView : 'registerAuthConnection' };
     }
 
     // missing auth tokens somehow
@@ -228,53 +190,6 @@ export default class App extends React.Component
     ;
   };
 
-  /**
-   * @return {Promise.<String>}
-   */
-  onNewMailchimpAPIKey = () =>
-  {
-    const { dpapp } = this.props;
-
-    const setMailchimpAuthState = (oauth2Token) => {
-
-      const mailchimpAuthc = new MailchimpAuthcInfo({ oauth2Token, apiKey: null });
-      const changes = { mailchimpAuth: mailchimpAuthc.toJS(), activeView: 'home' };
-
-      return this.updateUserSettings(changes).then(() => mailchimpAuthc);
-    };
-
-    return dpapp.oauth.requestAccess('mailchimp')
-      .then(setMailchimpAuthState)
-      .then(this.loadData)
-      .then(this.setState.bind(this));
-  };
-
-  onRegisterMailchimpConnection = (connection) => {
-    const { dpapp } = this.props;
-
-    dpapp.oauth.register('mailchimp', connection)
-      .then((connection) => {
-        return this.updateAppSettings({ mailchimpOauthConnectionStatus: 'registered' });
-      })
-      .then(() => ({ activeView: 'authenticate' }))
-      .then(this.setState.bind(this))
-    ;
-  };
-
-  renderOauthConnectionView  = () =>
-  {
-    const { oauthSettings } = this.state;
-    const model = {
-      providerDisplayName: 'Mailchimp',
-      providerName: 'mailchimp',
-      urlRedirect: oauthSettings.urlRedirect,
-      urlAuthorize: 'https://login.mailchimp.com/oauth2/authorize',
-      urlAccessToken: 'https://login.mailchimp.com/oauth2/token',
-      urlResourceOwnerDetails: 'https://login.mailchimp.com/oauth2/metadata'
-    };
-    return (<OauthConnectionView onAddConnection={this.onRegisterMailchimpConnection} model={model} />)
-  };
-
   renderAuthenticationView = () =>
   {
     return (<AuthenticationView onAuthenticate={this.onNewMailchimpAPIKey} />)
@@ -300,8 +215,6 @@ export default class App extends React.Component
         return this.renderHomeView();
       case 'authenticate':
         return this.renderAuthenticationView();
-      case 'registerAuthConnection':
-        return this.renderOauthConnectionView();
       default:
         return <noscript />;
     }
