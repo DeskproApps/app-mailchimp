@@ -48,9 +48,16 @@ export class FetchClient
     return fetch('https://login.mailchimp.com/oauth2/metadata', fetchParams)
       .catch(err => Promise.reject(new AuthenticationError('api access denied', err)))
       .then(response => { return response.body; })
-      .then(({ dc, login_url, api_endpoint }) => {
-        const apiHost = dc + '.api.mailchimp.com';
-        return new FetchClient({ apiToken, apiHost, fetch });
+      .then(body => {
+        const { error, errorDescription } = body;
+        if (error && error === 'invalid_token') {
+          return Promise.reject(new AuthenticationError(errorDescription, null))
+        } else if(error) {
+          return Promise.reject(new Error(errorDescription))
+        }
+
+        const { dc, login_url, api_endpoint } = body;
+        return new FetchClient({ apiToken, apiHost: `${dc}.api.mailchimp.com`, fetch });
       })
     ;
   }

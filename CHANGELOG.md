@@ -4,26 +4,33 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
-## [0.1.13][] - 2018-08-20
+## [0.2.0][] - 2018-10-24
 
- - use the new apps structure
- - use @deskpro/apps-sdk@0.5.0
- - use @deskpro/apps-components@0.5.0
+### Added
+
+  - admin interface
+  
+## Changed
+
+  - agents use the same access token that is acquired during install
+  - use the new apps structure
+  - use @deskpro/apps-sdk@0.8.0
+  - use @deskpro/apps-components@0.8.0
 
 ## [0.1.12][] - 2018-03-29
 
 ### Added
 
-    - travis will atttach builds to Github PR's when enabled via s3 environment variables
+   - travis will atttach builds to Github PR's when enabled via s3 environment variables
 
 ### Fixed
 
-    - authentication failure to detect valid access token
+   - authentication failure to detect valid access token
 
 ### Changed
 
-    - upgrade to @deskpro/apps-sdk-react version 0.2.13
-    - upgrade to @deskpro/apps-dpat version 0.10.4
+   - upgrade to @deskpro/apps-sdk-react version 0.2.13
+   - upgrade to @deskpro/apps-dpat version 0.10.4
 
 ## [0.1.11][] - 2018-02-09
 
@@ -98,8 +105,8 @@ QA passed
 ### Fixed 
  - no hover effect on `engagement score` rating stars
 
-[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.1.13...HEAD
-[0.1.13]: https://github.com/DeskproApps/mailchimp/compare/v0.1.12...v0.1.13
+[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/DeskproApps/mailchimp/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/DeskproApps/mailchimp/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/DeskproApps/mailchimp/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/DeskproApps/mailchimp/compare/v0.1.9...v0.1.10

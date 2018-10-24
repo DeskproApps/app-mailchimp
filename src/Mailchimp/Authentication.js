@@ -46,9 +46,9 @@ export class MailchimpAuthcInfo
    * @param {String} apiKey
    * @return {MailchimpAuthcInfo}
    */
-  static fromJS({oauth2Token, apiKey})
+  static fromJS({apiKey})
   {
-    const props = {oauth2Token, apiKey};
+    const props = { apiKey, oauth2Token: '{{oauth:mailchimp:access_token}}' };
     return new MailchimpAuthcInfo(props);
   }
 
@@ -73,13 +73,8 @@ export class MailchimpAuthcInfo
       accessType = ApiCredentials.ACCESS_APIKEY;
       accessToken = apiKey;
     } else if (oauth2Token) {
-      if (oauth2Token.access_token) {
-        accessType = ApiCredentials.ACCESS_OAUTH;
-        accessToken = oauth2Token.access_token;
-      } else if (oauth2Token.accessToken) { // for backwards compatibility
-        accessType = ApiCredentials.ACCESS_OAUTH;
-        accessToken = oauth2Token.accessToken;
-      }
+      accessType = ApiCredentials.ACCESS_OAUTH;
+      accessToken = oauth2Token;
     }
 
     if (! accessType) {

@@ -2,22 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@deskpro/apps-components';
 
-export const AuthenticationView = ({ onAuthenticate }) => {
-
-  const onAuthenticateListener = event => { onAuthenticate(); };
+export const AuthenticationView = () => {
 
   return (
     <div>
       <p>
-        This seems to be the first time you are running this application.
+        This application has not been properly installed.
       </p>
-      <Button type="submit" appearance={"primary"} onClick={onAuthenticateListener}>
-        Authenticate
-      </Button>
+
+      <p>
+        Contact the admin to finalize the set up.
+      </p>
     </div>
   );
-};
-
-AuthenticationView.propTypes = {
-  onAuthenticate: PropTypes.func.isRequired,
 };
