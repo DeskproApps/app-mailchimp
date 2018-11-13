@@ -57,10 +57,10 @@
     uniforms "^1.25.0"
     uniforms-unstyled "^1.25.0"
 
-"@deskpro/apps-react-scripts@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@deskpro/apps-react-scripts/-/apps-react-scripts-0.4.0.tgz#e4d54bc32f20bf6f758d02e8271bf5b5fcd4b7e3"
-  integrity sha512-LdvM+51WveJHhkWi38PDgYsV6NFbTk2+6o+uNmyvg1lM8ufQzA6+KO9UBprBaS/5xbkyYpRN9nDWmj6RcNCvjA==
+"@deskpro/apps-react-scripts@~0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@deskpro/apps-react-scripts/-/apps-react-scripts-0.5.0.tgz#f9c4f1829c0bd20d352eef789e0470f1dfe4341f"
+  integrity sha512-ZwrUmVx/2BOfM73OKa6+KU45eNgWb/f4IWcWcigHyPU/6rVKuzKu5U01Ben1bo7L5WYpkRKFfvRrWg4FQDSXVA==
   dependencies:
     "@deskpro/apps-sdk" "^0.10.0"
     archiver "^2.1.1"
