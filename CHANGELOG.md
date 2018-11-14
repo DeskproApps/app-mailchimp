@@ -4,6 +4,16 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.3.0][] - 2018-11-14
+
+### Added
+
+ - show an application placeholder before the app gets a change to load
+
+### Changed
+
+ - upgrade dependencies
+
 ## [0.2.0][] - 2018-10-24
 
 ### Added
@@ -105,7 +115,8 @@ QA passed
 ### Fixed 
  - no hover effect on `engagement score` rating stars
 
-[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/DeskproApps/mailchimp/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/DeskproApps/mailchimp/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/DeskproApps/mailchimp/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/DeskproApps/mailchimp/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/DeskproApps/mailchimp/compare/v0.1.10...v0.1.11

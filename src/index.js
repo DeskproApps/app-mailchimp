@@ -9,12 +9,13 @@ import { AppFrame } from '@deskpro/apps-components';
 import { createApp } from '@deskpro/apps-sdk';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import AppPlaceholder from './Components/AppPlaceholder';
 import App from './App';
 
 createApp(dpapp => props =>
   ReactDOM.render(
     <AppFrame {...props}>
-      <App dpapp={dpapp} />
+      {dpapp.getProperty('isPreRender') ? <AppPlaceholder /> : <App dpapp={dpapp} />}
     </AppFrame>,
     document.getElementById('root')
   )
